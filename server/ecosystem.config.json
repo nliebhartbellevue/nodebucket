@@ -1,0 +1,21 @@
+{
+  "apps": [
+    {
+      "name": "SERVER",
+      "script": "node -r esm ./",
+      "instance": 1,
+      "autorestart": true,
+      "env_development": {
+        "NODE_ENV": "development",
+        "MONGO_USER": "dbuser",
+        "MONGO_PASS": "password1",
+        "MONGO_HOST": "ds259518.mlab.com:59518/nodebucket-db",
+        "CORS_WHITELIST": "",
+        "RATE_LIMIT_MAX_REQUESTS": 100,
+        "RATE_LIMIT_WINDOW_MS": 900000,
+        "JWT_TOKEN_SECRET": "top secret",
+        "JWT_TOKEN_ISSUER": "nodebucket.com"
+      }
+    }
+  ]
+}
