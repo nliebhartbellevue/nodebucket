@@ -1,0 +1,17 @@
+.page-view {
+  text-align: center;
+  &.texture-background {
+    background: linear-gradient(to left, $mat-deep-purple 500, $mat-deep-purple 200);
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-image: url('../../assets/bg-textures/bg_texture_8.png');
+      width: 100%;
+      height: 100%;
+      opacity: 0.2;
+    }
+  }
+}

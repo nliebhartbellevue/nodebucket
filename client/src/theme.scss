@@ -1,0 +1,16 @@
+// Title: theme.scss
+// Author: Nathaniel Liebhart
+// Date: March 9th, 2020
+// Description: NodeBucket
+@import '~@angular/material/theming';
+@include mat-core();
+
+// Color Palette
+$nodebucket-theme-primary: mat-palette($mat-deep-purple, 500, 200);
+$nodebucket-theme-secondary: mat-palette($mat-pink, 100);
+$nodebucket-theme-warn: mat-palette($mat-red);
+
+// Create the theme object
+$nodebucket-theme: mat-light-theme($nodebucket-theme-primary, $nodebucket-theme-secondary, $nodebucket-theme-warn);
+
+@include angular-material-theme($nodebucket-theme);

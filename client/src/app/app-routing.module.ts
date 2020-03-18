@@ -1,21 +1,26 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthGuardService as AuthGuard } from './service/auth-guard.service';
+
+import { AuthGuardService as AuthGuard } from './services/auth-guard.service';
+
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: './home/home.module#HomeModule',
+    component: HomeComponent,
     data: { animation: 'HomePage' }
   },
   {
     path: 'login',
-    loadChildren: './login/login.module#LoginModule'
+    component: LoginComponent
   },
   {
     path: 'register',
-    loadChildren: './register/register.module#RegisterModule'
+    component: RegisterComponent
   }
 ];
 
