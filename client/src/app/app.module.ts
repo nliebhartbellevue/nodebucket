@@ -17,28 +17,18 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 
-
 @NgModule({
-   declarations: [
-      AppComponent,
-      HomeComponent,
-      RegisterComponent
-   ],
-   imports: [
-      BrowserModule,
-      HttpClientModule,
-      RouterModule.forRoot([),
-      FormsModule,
-      ReactiveFormsModule,
-      BrowserAnimationsModule,
-      AppRoutingModule
-   ],
-   providers: [
-      AuthService,
-      AuthGuardService
-   ],
-   bootstrap: [
-      AppComponent
-   ]
+  declarations: [AppComponent, HomeComponent, RegisterComponent],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    RouterModule.forRoot([]),
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    AppRoutingModule
+  ],
+  providers: [AuthService, AuthGuardService],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

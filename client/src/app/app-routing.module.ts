@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: '/home' },
   {
     path: 'home',
     component: HomeComponent,
@@ -28,5 +29,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes), BrowserAnimationsModule],
   exports: [RouterModule]
 })
-
-export class AppRoutingModule { }
+export class AppRoutingModule {}

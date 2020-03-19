@@ -1,59 +1,69 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of, ReplaySubject, throwError, timer } from 'rxjs';
+import {
+  catchError,
+  mergeMap,
+  retryWhen,
+  switchMap,
+  tap,
+  flatMap
+} from 'rxjs/operators';
+import { Employee } from '../models/employee';
 import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  config = environment;
-  private employee = new BehaviorSubject<boolean>(false);
-  cast = this.employee.asObservable();
+  private principalCache$: ReplaySubject<Employee> = new ReplaySubject(1);
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient) {}
 
-  public isAuthenticated(): boolean {
-    const token = localStorage.getItem('currentEmployee');
-
-    /**
-     * Check for token,
-     * if token return true,
-     * else return false
-     */
-    if (token) {
-      return true;
-    } else {
-      return false;
-    }
+  login(empid: string, password: string): Observable<Employee | undefined> {
+    const loginRequest = `empid=${encodeURIComponent(
+      empid
+    )}&password=${encodeURIComponent(password)}`;
+    const headers = new HttpHeaders().set(
+      'Content-Type',
+      'application/x-www-form-urlencoded'
+    );
+    return this.http.post(environment.loginUrl, loginRequest, { headers }).pipe(
+      retryWhen(this.retryOnceOnCsrFailure()),
+      switchMap(() => this.fetchEmployeeInfo())
+    );
   }
 
-  registerEmployee(employee) {
-    return this.http.post<any>(`${this.config.registerUrl}`, employee);
-  }
-
-  loginEmployee(employee) {
-    return this.http.post<any>(`${this.config.loginUrl}`,
-      { empid: employee.empid, password: employee.password })
-      // tslint:disable-next-line: no-shadowed-variable
-      .pipe(map(employee => {
-        // login successful if there's a jwt token in response
-        if (employee && employee.token) {
-          // store employee details and jwt token in local storage
-          localStorage.setItem('currentEmployee', JSON.stringify('JWT ' + employee.token));
+  retryOnceOnCsrFailure = () => (attempts: Observable<any>) => {
+    return attempts.pipe(
+      mergeMap((error, i) => {
+        const attempt = i + 1;
+        if (attempt > 1 || error.status !== 403) {
+          return throwError(error);
         }
-        this.employee.next(true);
-        return employee;
-      }));
+        return timer(1);
+      })
+    );
+    // tslint:disable-next-line: semicolon
+  };
+
+  logout(): Observable<any> {
+    return this.get(environment.logoutUrl, {}).pipe(
+      tap(() => {
+        this.principalCache$.next(undefined);
+      })
+    );
   }
 
-  logoutEmployee() {
-    // remove employee from local strorage
-    localStorage.removeItem('currentEmployee');
-    this.employee.next(false);
-    this.router.navigate(['/home']);
+  private handleUnauthenticatedEmployee(): Observable<undefined> {
+    this.principalCache$.next(undefined);
+    return of(undefined);
   }
 
+  private fetchEmployeeInfo(): Observable<Employee | undefined> {
+    return this.http.get<Employee>(environment.profileUrl).pipe(
+      tap(employee => this.principalCache$.next(employee)),
+      catchError(() => this.handleUnauthenticatedEmployee())
+    );
+  }
 }
