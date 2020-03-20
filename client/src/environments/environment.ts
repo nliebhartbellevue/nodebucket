@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  registerUrl: 'http://localhost:5000/api/v1/auth/register',
-  loginUrl: 'http://localhost:5000/api/v1/auth/login',
-  logoutUrl: 'http://localhost:5000/api/v1/auth/logout',
-  profileUrl: 'http://localhost:5000/api/v1/auth/me'
+  registerUrl: 'auth/register',
+  loginUrl: 'auth/login',
+  logoutUrl: 'auth/logout',
+  profileUrl: 'auth/me'
 };
 
 /*

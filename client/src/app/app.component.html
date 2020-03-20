@@ -1,9 +1,26 @@
-<div fxFlex fxLayout="column">
-  <div fxFlex="">
-    <div class="container">
-      <div fxLayout="column">
-        <router-outlet></router-outlet>
+<div class="container">
+  <app-header (toggleSidenav)="snav.toggle()"></app-header>
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #snav mode="side" fixedInViewport="true" fixedTopGap="68">
+      <app-sidenav></app-sidenav>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="body">
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+        <div class="footer">
+          <span
+            >Powered by&nbsp;
+            <img
+              src="../assets/logos/logo-250.png"
+              alt="NodeBucket small logo"
+              style="height: 50px;"
+            />
+            &nbsp; &copy;&nbsp;2020
+          </span>
+        </div>
       </div>
-    </div>
-  </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

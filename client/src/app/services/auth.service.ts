@@ -1,69 +1,57 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of, ReplaySubject, throwError, timer } from 'rxjs';
-import {
-  catchError,
-  mergeMap,
-  retryWhen,
-  switchMap,
-  tap,
-  flatMap
-} from 'rxjs/operators';
+import { Inject, Injectable } from '@angular/core';
+import { BROWSER_STORAGE } from './storage';
 import { Employee } from '../models/employee';
-import { environment } from '../../environments/environment';
+import { AuthResponse } from './authresponse';
+import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  private principalCache$: ReplaySubject<Employee> = new ReplaySubject(1);
+export class AuthenticationService {
+  constructor(
+    @Inject(BROWSER_STORAGE) private storage: Storage,
+    private dataService: DataService
+  ) {}
 
-  constructor(private http: HttpClient) {}
-
-  login(empid: string, password: string): Observable<Employee | undefined> {
-    const loginRequest = `empid=${encodeURIComponent(
-      empid
-    )}&password=${encodeURIComponent(password)}`;
-    const headers = new HttpHeaders().set(
-      'Content-Type',
-      'application/x-www-form-urlencoded'
-    );
-    return this.http.post(environment.loginUrl, loginRequest, { headers }).pipe(
-      retryWhen(this.retryOnceOnCsrFailure()),
-      switchMap(() => this.fetchEmployeeInfo())
-    );
+  public getToken(): string {
+    return this.storage.getItem('nodebucket-token');
   }
 
-  retryOnceOnCsrFailure = () => (attempts: Observable<any>) => {
-    return attempts.pipe(
-      mergeMap((error, i) => {
-        const attempt = i + 1;
-        if (attempt > 1 || error.status !== 403) {
-          return throwError(error);
-        }
-        return timer(1);
-      })
-    );
-    // tslint:disable-next-line: semicolon
-  };
-
-  logout(): Observable<any> {
-    return this.get(environment.logoutUrl, {}).pipe(
-      tap(() => {
-        this.principalCache$.next(undefined);
-      })
-    );
+  public saveToken(token: string): void {
+    this.storage.setItem('nodebucket-token', token);
   }
 
-  private handleUnauthenticatedEmployee(): Observable<undefined> {
-    this.principalCache$.next(undefined);
-    return of(undefined);
+  public login(employee: Employee): Promise<any> {
+    return this.dataService
+      .login(employee)
+      .then((authResponse: AuthResponse) => this.saveToken(authResponse.token));
   }
 
-  private fetchEmployeeInfo(): Observable<Employee | undefined> {
-    return this.http.get<Employee>(environment.profileUrl).pipe(
-      tap(employee => this.principalCache$.next(employee)),
-      catchError(() => this.handleUnauthenticatedEmployee())
-    );
+  public register(employee: Employee): Promise<any> {
+    return this.dataService
+      .register(employee)
+      .then((authResponse: AuthResponse) => this.saveToken(authResponse.token));
+  }
+
+  public logout(): void {
+    this.storage.removeItem('nodebucket-token');
+  }
+
+  public isLoggedIn(): boolean {
+    const token: string = this.getToken();
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.exp > Date.now() / 1000;
+    } else {
+      return false;
+    }
+  }
+
+  public getCurrentEmployee(): Employee {
+    if (this.isLoggedIn()) {
+      const token: string = this.getToken();
+      const { empid, firstName, email } = JSON.parse(atob(token.split('.')[1]));
+      return { empid, firstName, email } as Employee;
+    }
   }
 }

@@ -1,0 +1,56 @@
+<div class="route-loader" *ngIf="{ loading: loading$ | async } as route">
+  <mat-progress-bar
+    *ngIf="route.loading"
+    color="accent"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</div>
+<mat-toolbar
+  role="heading"
+  color="primary"
+  *ngIf="{ details: employee$ | async } as employee"
+>
+  <button
+    class="app-menu"
+    mat-icon-button
+    *ngIf="!!employee.details"
+    (click)="toggleSidenav.emit()"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <a href="#" routerLink="/" class="logo">
+    <img
+      src="../../../assets/logos/logo-250.png"
+      alt="NodeBucket logo"
+      class="logo-img"
+    />
+  </a>
+  <span class="spacer"></span>
+  <mat-nav-list class="nav-links">
+    <a
+      mat-list-item
+      class="app-login nav-links__item"
+      *ngIf="!employee.details"
+      href="#"
+      routerLink="/login"
+      routerLinkActive="nav-links__item--active"
+    >
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Login</span>
+    </a>
+    <button
+      *ngIf="!!employee.details"
+      mat-icon-button
+      class="app-account nav-links__item"
+      [matMenuTriggerFor]="employeeMenu"
+    >
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #employeeMenu="matMenu">
+      <button ma-menu-item class="app-logout" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </mat-nav-list>
+</mat-toolbar>

@@ -1,0 +1,15 @@
+// Title: theme.scss
+// Author: Nathaniel Liebhart
+// Date: March 9th, 2020
+// Description: NodeBucket
+@import '~@angular/material/theming';
+
+// Color Palette
+$primary-palette: mat-palette($mat-deep-purple, 500, 200);
+$accent-palette: mat-palette($mat-pink, 100);
+$warn-palette: mat-palette($mat-red);
+
+$primary: mat-color($primary-palette);
+$accent: mat-color($accent-palette);
+$warn: mat-color($warn-palette);
+$light-text-color: $light-primary-text;

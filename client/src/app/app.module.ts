@@ -7,28 +7,39 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
 // Material Design
-
+import { MaterialModule } from './material.module';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 // Services
-import { AuthService } from './services/auth.service';
-import { AuthGuardService } from './services/auth-guard.service';
 import { AppRoutingModule } from './app-routing.module';
 // Components
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { SidenavComponent } from './layout/sidenav/sidenav.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, RegisterComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    SidenavComponent,
+    HomeComponent,
+    RegisterComponent,
+    LoginComponent
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot([]),
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MaterialModule
   ],
-  providers: [AuthService, AuthGuardService],
+  providers: [
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
