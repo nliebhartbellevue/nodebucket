@@ -4,7 +4,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { AuthenticationService } from '../../services/auth.service';
+import { AuthenticationService } from '../services/auth.service';
 import {
   Router,
   NavigationStart,
