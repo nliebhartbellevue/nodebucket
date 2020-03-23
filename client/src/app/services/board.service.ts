@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Employee } from '../models/employee';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { DataService } from './data.service';
+import 'rxjs/add/operators/map';
 
 export interface Task {
-  test: string;
-  assignedTo?: Employee;
+  title: string;
+  content?: string;
+  empid?: string;
   tags?: string[];
 }
 
@@ -18,15 +22,20 @@ export interface Board {
   stages: Stage[];
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class BoardService {
-  private _boards: Board[] = boardAPICall();
+  private apiBaseUrl = 'http://localhost:5000/api/v1';
+  env = environment;
+  // tslint:disable-next-line: variable-name
+  private _tasks: Task[] = getTasks();
 
-  currentBoard = this._boards[0];
-
-  getBoards(): Board[] {
-    return this._boards;
+  constructor(private http: HttpClient, private dataService: DataService) {
+    console.log('Task Service init');
   }
+
+  getTasks(): Task[] {
+    return;
+  }
+
+  private makeTaskApiCall();
 }

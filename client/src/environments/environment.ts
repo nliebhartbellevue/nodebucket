@@ -7,7 +7,8 @@ export const environment = {
   registerUrl: 'auth/register',
   loginUrl: 'auth/login',
   logoutUrl: 'auth/logout',
-  profileUrl: 'auth/me'
+  profileUrl: 'auth/me',
+  taskUrl: 'tasks'
 };
 
 /*

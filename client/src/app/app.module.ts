@@ -8,7 +8,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 // Material Design
 import { MaterialModule } from './material.module';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 // Services
 import { AppRoutingModule } from './app-routing.module';
 // Components
@@ -20,28 +19,24 @@ import { LoginComponent } from './login/login.component';
 import { DrawerComponent } from './drawer/drawer.component';
 
 @NgModule({
-   declarations: [
-      AppComponent,
-      HeaderComponent,
-      HomeComponent,
-      RegisterComponent,
-      LoginComponent,
-      DrawerComponent
-   ],
-   imports: [
-      BrowserModule,
-      HttpClientModule,
-      FormsModule,
-      ReactiveFormsModule,
-      BrowserAnimationsModule,
-      AppRoutingModule,
-      MaterialModule
-   ],
-   providers: [
-      provide
-   ],
-   bootstrap: [
-      AppComponent
-   ]
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    HomeComponent,
+    RegisterComponent,
+    LoginComponent,
+    DrawerComponent
+  ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    MaterialModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
