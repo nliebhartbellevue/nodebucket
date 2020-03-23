@@ -145,8 +145,8 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
 exports.forgotPassword = asyncHandler(async (req, res, next) => {
   const employee = await Employee.findOne({ email: req.body.email });
 
-  if (!user) {
-    return next(new ErrorResponse('There is no user with that email', 404));
+  if (!employee) {
+    return next(new ErrorResponse('There is no employee with that email', 404));
   }
 
   // get reset token
@@ -168,7 +168,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
       message
     });
 
-    rest.status(200).json({ success: true, data: 'Email sent' });
+    res.status(200).json({ success: true, data: 'Email sent' });
   } catch (err) {
     console.log(err);
     employee.resetPasswordToken = undefined;
@@ -178,7 +178,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
     return next(
       new ErrorResponse(
-        'Email could not be sent at this time.\n Please try again later.',
+        'Email could not be sent at this time. Please try again later.',
         500
       )
     );

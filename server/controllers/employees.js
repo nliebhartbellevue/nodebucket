@@ -22,7 +22,7 @@ exports.getEmployees = asyncHandler(async (req, res, next) => {
  * @access      Private/Admin
  */
 exports.getEmployee = asyncHandler(async (req, res, next) => {
-  const employee = await Employee.findOne(req.params.empid);
+  const employee = await Employee.findOne({ empid: req.params.empid });
 
   res.status(200).json({
     success: true,

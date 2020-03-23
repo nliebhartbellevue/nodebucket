@@ -28,6 +28,7 @@ connectDB();
 // routes
 const auth = require('./routes/auth');
 const employees = require('./routes/employees');
+const tasks = require('./routes/tasks');
 
 // init express
 const app = express();
@@ -66,6 +67,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // mount routers
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/employees', employees);
+app.use('/api/v1/tasks', tasks);
 
 app.use(errorHandler);
 
