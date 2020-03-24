@@ -37,6 +37,15 @@ const EmployeeSchema = new mongoose.Schema({
     enum: ['user', 'manager', 'admin'],
     default: 'user'
   },
+  photo: {
+    type: String,
+    default:
+      'https://cdn1.iconfinder.com/data/icons/unique-round-blue/93/user-512.png'
+  },
+  designation: {
+    type: String,
+    required: true
+  },
   password: {
     type: String,
     required: [true, 'Password is required'],

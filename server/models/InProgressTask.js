@@ -1,11 +1,11 @@
 /**
- * Title: models/Task.js
+ * Title: models/InProgressTask.js
  * Author: Nathaniel Liebhart
  * Description: NodeBucket API
  */
 const mongoose = require('mongoose');
 
-const TaskSchema = new mongoose.Schema({
+const InProgressTaskSchema = new mongoose.Schema({
   title: { type: String, required: true },
   content: String,
   empid: String,
@@ -17,4 +17,4 @@ const TaskSchema = new mongoose.Schema({
   bgColor: String
 });
 
-module.exports = mongoose.model('Task', TaskSchema);
+module.exports = mongoose.model('InProgressTask', InProgressTaskSchema);

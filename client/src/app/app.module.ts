@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { ToastOptions } from 'ng2-toastr';
 
 // Material Design
 import { MaterialModule } from './material.module';
@@ -17,6 +19,17 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { DrawerComponent } from './drawer/drawer.component';
+import { UsersComponent } from './users/users.component';
+import { EmployeeService } from './services/employee.service';
+import { EmitterService } from './services/emitter.service';
+
+// Toast options
+export class CustomOption extends ToastOptions {
+  positionClass: 'toast-bottom-right';
+  animate = 'flyRight';
+  newestOnTop = false;
+  showCloseButton = true;
+}
 
 @NgModule({
   declarations: [
@@ -25,7 +38,8 @@ import { DrawerComponent } from './drawer/drawer.component';
     HomeComponent,
     RegisterComponent,
     LoginComponent,
-    DrawerComponent
+    DrawerComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
@@ -34,9 +48,14 @@ import { DrawerComponent } from './drawer/drawer.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    MaterialModule
+    MaterialModule,
+    ToastModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    EmployeeService,
+    EmitterService,
+    { provide: ToastOptions, useClass: CustomOption }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

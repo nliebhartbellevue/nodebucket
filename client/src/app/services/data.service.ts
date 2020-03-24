@@ -1,3 +1,8 @@
+/**
+ * Title: services/data.service.ts
+ * Author: Nathaniel Liebhart
+ * Description: NodeBucket
+ */
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Employee } from '../models/employee';

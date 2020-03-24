@@ -29,6 +29,7 @@ connectDB();
 const auth = require('./routes/auth');
 const employees = require('./routes/employees');
 const tasks = require('./routes/tasks');
+const inProgress = require('./routes/inProgressTask');
 
 // init express
 const app = express();
@@ -68,6 +69,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/employees', employees);
 app.use('/api/v1/tasks', tasks);
+app.use('/api/v1/inprogress', inProgress);
 
 app.use(errorHandler);
 
