@@ -1,3 +1,59 @@
-<p>
-  users works!
-</p>
+<div class="users">
+  <mat-card>
+    <mat-card-title>Team Members</mat-card-title>
+    <mat-grid-list cols="{users.length}" *ngFor="let user of users">
+      <mat-grid-tile>
+        <button id="content" mat-raised-button (click)="openShortProfile(user)">
+          <img
+            mat-grid-avatar
+            src="{{ user.photo }}"
+            (mouseover)="mouseover(user.firstName)"
+            (mouseleave)="mouseleave(user.firstName)"
+            alt="{{ user.firstName }} {{ user.lastName }}"
+          />
+        </button>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <button mat-raised-button class="add-user" (click)="openPopup()">
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card>
+
+  <div class="popup-wrapper">
+    <h1
+      mat-dialog-title
+      *ngIf="openedShortProfile"
+      (close)="closeShortProfile('cancel')"
+    >
+      {{ selectedUserFirstName }} {{ selectedUserLastName }} Details
+    </h1>
+    <div class="main-body" mat-dialog-content>
+      <img
+        mat-grid-avatar
+        src="{{ selectedUserPhoto }}"
+        alt="{{ selectedUserFirstName }} {{ selectedUserLastName }}"
+      />
+      <h2>
+        {{ selectedUserFirstName }} {{ selectedUserLastName }} -
+        {{ selectedUserEmpid }}
+      </h2>
+      <h4>{{ selectedUserDesignation }}</h4>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button (click)="closeShortProfile('star')">
+        <mat-icon>grade</mat-icon>
+      </button>
+      <button mat-raised-button (click)="closeShortProfile('love')">
+        <mat-icon>favorite_border</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div id="popup" style="display: none">
+    {{ selectedUserFirstName }} {{ selectedUserLastName }}
+  </div>
+
+  <div class="new-popup-wrapper"></div>
+</div>
