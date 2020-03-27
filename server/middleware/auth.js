@@ -1,53 +1,21 @@
 /**
- * Title: middleware/auth.js
+ * Title: middleware/check-auth.js
  * Author: Nathaniel Liebhart
- * Description: NodeBucket API
+ * Description: NodeBucket
  */
 const jwt = require('jsonwebtoken');
-const asyncHandler = require('./async');
-const ErrorResponse = require('../utils/errorResponse');
-const Employee = require('../models/Employee');
 
-// Protect routes
-exports.protect = asyncHandler(async (req, res, next) => {
-  let token;
-
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    // set token from Bearer token in header
-    token = req.headers.authorization.split(' ')[1];
-  }
-
-  // make sure token exists
-  if (!token) {
-    return next(new ErrorResponse('Not authorized to access this route', 401));
-  }
-
+module.exports = (req, res, next) => {
   try {
-    // verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    req.employee = await Employee.findById(decoded.id);
-
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'top-secret');
+    req.userData = {
+      empid: decodedToken.empid,
+      userId: decodedToken.userId,
+      role: decodedToken.role
+    };
     next();
-  } catch (err) {
-    return next(new ErrorResponse('Not authorized to access this route', 401));
+  } catch (error) {
+    res.status(401).json({ message: 'Not authenticated!' });
   }
-});
-
-// grant access to specific roles
-exports.authorize = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.employee.role)) {
-      return next(
-        new ErrorResponse(
-          `Employee role ${req.employee.role} is not autorized to access this route`,
-          403
-        )
-      );
-    }
-    next();
-  };
 };

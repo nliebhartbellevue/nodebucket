@@ -1,76 +1,50 @@
 /**
- * Title: controllers/employees.js
+ * Title: controllers/employee.js
  * Author: Nathaniel Liebhart
- * Description: NodeBucket API
+ * Description: NodeBucket
  */
-const ErrorResponse = require('../utils/errorResponse');
-const asyncHandler = require('../middleware/async');
-const Employee = require('../models/Employee');
+const Employee = require('../models/employee');
 
-/**
- * @desc        get all employees
- * @route       GET /api/v1/employees
- * @access      Private/Admin
- */
-exports.getEmployees = asyncHandler(async (req, res, next) => {
-  res.status(200).json(res.advancedResults);
-});
+// get current employees profile
+exports.getProfile = async (req, res, next) => {
+  try {
+    const employee = await Employee.findOne({
+      user: req.userData.userId
+    });
 
-/**
- * @desc        get employee by id
- * @route       GET /api/v1/employees/:empid
- * @access      Private/Admin
- */
-exports.getEmployee = asyncHandler(async (req, res, next) => {
-  const employee = await Employee.findOne({ empid: req.params.empid });
+    if (!employee) {
+      console.log(user.empid);
+      return res.status(400).json({
+        message: 'Bad Request: There is no profile for this employee!'
+      });
+    }
 
-  res.status(200).json({
-    success: true,
-    data: employee
-  });
-});
+    // only populate from user document if profile exists
+    res.json(employee.populate('user', ['empid', 'role']));
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error!');
+  }
+};
 
-/**
- * @desc        create employee
- * @route       POST /api/v1/employees
- * @access      Private/Admin
- */
-exports.createEmployee = asyncHandler(async (req, res, next) => {
-  const employee = await Employee.create(req.body);
+exports.createProfile = async (req, res, next) => {
+  const { avatarPath, name, designation } = req.body;
+  const employeeFields = {
+    user: req.userData.userId,
+    avatarPath,
+    name,
+    designation
+  };
 
-  res.status(201).json({
-    success: true,
-    data: employee
-  });
-});
-
-/**
- * @desc        update employee
- * @route       PUT /api/v1/employees/:id
- * @access      Private/Admin
- */
-exports.updateEmployee = asyncHandler(async (req, res, next) => {
-  const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true
-  });
-
-  res.status(200).json({
-    success: true,
-    data: employee
-  });
-});
-
-/**
- * @desc        delete employee
- * @route       DELETE /api/v1/employees/:id
- * @access      Private/Admin
- */
-exports.deleteEmployee = asyncHandler(async (req, res, next) => {
-  await Employee.findByIdAndDelete(req.params.id);
-
-  res.status(200).json({
-    success: true,
-    data: {}
-  });
-});
+  try {
+    let employee = await Employee.findOneAndUpdate(
+      { user: req.userData.userId },
+      { $set: employeeFields },
+      { new: true, upsert: true }
+    );
+    res.json(employee);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error!');
+  }
+};

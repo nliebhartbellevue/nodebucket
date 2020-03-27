@@ -1,15 +1,20 @@
 /**
- * Title: models/Task.js
+ * Title: models/task.js
  * Author: Nathaniel Liebhart
- * Description: NodeBucket API
+ * Description: NodeBucket
  */
 const mongoose = require('mongoose');
 
-const TaskSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  content: String,
-  empid: String,
-  skills: [String],
+const taskSchema = new mongoose.Schema({
+  id: Number,
+  title: String,
+  people: Number,
+  skills: [
+    {
+      id: Number,
+      name: String
+    }
+  ],
   startDate: Date,
   endDate: Date,
   start: Date,
@@ -17,4 +22,4 @@ const TaskSchema = new mongoose.Schema({
   bgColor: String
 });
 
-module.exports = mongoose.model('Task', TaskSchema);
+module.exports = mongoose.model('Task', taskSchema);
