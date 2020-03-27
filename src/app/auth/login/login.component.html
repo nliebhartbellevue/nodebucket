@@ -1,10 +1,8 @@
 <div class="container">
   <mat-card class="card" tabindex="0" role="form">
     <mat-card-title class="title">Login</mat-card-title>
-    <form class="form" (ngSubmit)="onLoginSubmit($event)">
-      <div class="error mat-error" *ngIf="formErrors">
-        {{ formErrors }}
-      </div>
+    <form class="form">
+      <div class="error mat-error"></div>
       <mat-form-field>
         <mat-label>Employee ID</mat-label>
         <input
@@ -12,7 +10,6 @@
           placeholder="Enter your employee ID"
           id="empid"
           name="empid"
-          [(ngModel)]="credentials.empid"
         />
       </mat-form-field>
       <mat-form-field>
@@ -23,7 +20,6 @@
           placeholder="Enter your password"
           id="password"
           name="password"
-          [(ngModel)]="credentials.password"
         />
       </mat-form-field>
       <mat-card-actions>

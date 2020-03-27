@@ -1,10 +1,9 @@
-// Title: theme.scss
+// Title: _variables.scss
 // Author: Nathaniel Liebhart
-// Date: March 9th, 2020
 // Description: NodeBucket
 @import '~@angular/material/theming';
 
-// Color Palette
+// color palette
 $primary-palette: mat-palette($mat-deep-purple, 500, 200);
 $accent-palette: mat-palette($mat-pink, 100);
 $warn-palette: mat-palette($mat-red);

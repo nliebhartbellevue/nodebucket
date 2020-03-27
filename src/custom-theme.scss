@@ -1,0 +1,34 @@
+//  Title: custom-theme.scss
+//  Author: Nathaniel Liebhart
+//  Description: NodeBucket
+@import '~@angular/material/theming';
+@import './variables';
+@include mat-core();
+
+html,
+body {
+  height: 100%;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Oswald, sans-serif;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+mat-icon.mat-icon + span {
+  padding-left: 0.35rem;
+}
+
+$nodebucket-theme: mat-light-theme(
+  $primart-palette,
+  $accent-palette,
+  $warn-palette
+);
+
+@include angular-material-theme($nodebucket-theme);

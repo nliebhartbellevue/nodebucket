@@ -24,10 +24,7 @@
             "tsConfig": "tsconfig.app.json",
             "aot": false,
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": [
-              "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css",
-              "src/styles.scss"
-            ],
+            "styles": ["src/custom-theme.scss"],
             "scripts": []
           },
           "configurations": {
