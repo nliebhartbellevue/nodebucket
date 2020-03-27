@@ -71,3 +71,36 @@ exports.login = (req, res, next) => {
       });
     });
 };
+
+// check for authentication
+exports.isAuthenticated = async (req, res, next) => {
+  try {
+    const user = await (await User.findOne({ empid: req.body.empid })).select(
+      '-password'
+    );
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error!');
+  }
+};
+
+// check if empid is used
+exports.empidAvailable = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ empid: req.body.empid });
+    if (!user) {
+      res.status(200).json({
+        available: true
+      });
+    } else {
+      res.status(422).json({
+        available: false
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: 'Server Error!'
+    });
+  }
+};
