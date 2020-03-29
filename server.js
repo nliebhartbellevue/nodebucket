@@ -1,5 +1,6 @@
 const app = require('./server/app');
 const debug = require('debug')('node-angular');
+
 const http = require('http');
 
 const normalizePort = val => {
@@ -14,7 +15,6 @@ const normalizePort = val => {
     // port number
     return port;
   }
-
   return false;
 };
 

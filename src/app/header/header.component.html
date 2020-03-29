@@ -1,0 +1,40 @@
+<mat-toolbar>
+  <span>
+    <a routerLink="/">
+      <img src="../../assets/logos/logo-250.png" alt="NodeBucket Logo small" />
+    </a>
+  </span>
+  <span class="spacer"></span>
+  <ul>
+    <li *ngIf="empIsAuthenticated">Employee: {{ email }} | (#{{ empid }})</li>
+    <li>
+      <a mat-button routerLink="/" routerLinkActive="mat-accent">All Tasks</a>
+    </li>
+    <li *ngIf="empIsAuthenticated">
+      <a
+        mat-button
+        routerLink="/emptask/{{ empid }}"
+        routerLinkActive="mat-accent"
+        >Tasks for #{{ empid }}</a
+      >
+    </li>
+    <li *ngIf="empIsAuthenticated">
+      <a mat-button routerLink="/create" routerLinkActive="mat-accent"
+        >Create Taks</a
+      >
+    </li>
+    <li *ngIf="!empIsAuthenticated">
+      <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>
+    </li>
+    <li *ngIf="!empIsAuthenticated">
+      <a mat-button routerLink="/register" routerLinkActive="mat-accent"
+        >Register</a
+      >
+    </li>
+    <li *ngIf="empIsAuthenticated">
+      <a mat-button routerLink="/logout" routerLinkActive="mat-accent"
+        >Logout</a
+      >
+    </li>
+  </ul>
+</mat-toolbar>

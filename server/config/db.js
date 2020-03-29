@@ -3,7 +3,7 @@
  * Author: Nathaniel Liebhart
  * Description: NodeBucket API
  */
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const connectDB = async () => {
   const conn = await mongoose.connect(process.env.MONGO_URI, {
@@ -13,7 +13,7 @@ const connectDB = async () => {
     useUnifiedTopology: true
   });
 
-  console.log(`MongoDB Connected: ${conn.connection.host}`.cyan.underline.blod);
+  console.log(`MongoDB Connected: ${conn.connection.host}`);
 };
 
 module.exports = connectDB;

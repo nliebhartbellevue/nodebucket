@@ -3,12 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  registerUrl: 'auth/register',
-  loginUrl: 'auth/login',
-  logoutUrl: 'auth/logout',
-  profileUrl: 'auth/me',
-  taskUrl: 'tasks'
+  production: false
 };
 
 /*

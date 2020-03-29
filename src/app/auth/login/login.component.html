@@ -1,38 +1,45 @@
-<div class="container">
-  <mat-card class="card" tabindex="0" role="form">
-    <mat-card-title class="title">Login</mat-card-title>
-    <form (ngSubmit)="onSubmit()" [formGroup]="authForm" class="form">
-      <mat-form-field>
-        <mat-label>Employee ID</mat-label>
-        <input
-          matInput
-          placeholder="Enter your employee ID"
-          type="text"
-          [formControl]="authForm.get('empid')"
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Password</mat-label>
-        <input
-          matInput
-          type="password"
-          placeholder="Enter your password"
-          [formControl]="authForm.get('password')"
-        />
-      </mat-form-field>
-
-      <div class="error" *ngIf="authForm.errors">
-        <p *ngIf="authForm.errors.credentials">
-          Invalid Employee ID or Password
-        </p>
-      </div>
-
-      <mat-card-actions>
-        <button mat-raised-button color="accent" class="login-btn">
-          <mat-icon>exit_to_app</mat-icon>
-          <span>Login</span>
-        </button>
-      </mat-card-actions>
-    </form>
+<div class="my-5 py-5" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card>
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-content>
+      <form
+        (submit)="onSubmit(loginForm)"
+        #loginForm="ngForm"
+        fxLayout="column"
+        fxLayoutGap="15px"
+      >
+        <mat-form-field>
+          <input
+            matInput
+            name="empid"
+            ngModel
+            type="text"
+            placeholder="Employee ID"
+            #empidInput="ngModel"
+            required
+            empid
+          />
+          <mat-error *ngIf="empidInput.invalid"
+            >Please check you credentials and try again!</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            name="password"
+            ngModel
+            type="password"
+            placeholder="Please enter your password."
+            #passwordInput="ngModel"
+            required
+            password
+          />
+          <mat-error *ngIf="passwordInput.invalid"
+            >Please check you credentials and try again!</mat-error
+          >
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Login</button>
+      </form>
+    </mat-card-content>
   </mat-card>
 </div>

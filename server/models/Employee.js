@@ -7,12 +7,16 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const employeeSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+  empid: { type: String, required: true, unique: true },
+  email: {
+    type: String,
+    required: true,
+    unique: true
   },
-  avatarPath: String,
+  password: { type: String, required: true },
   name: String,
+  role: { type: String, enum: ['admin', 'manager', 'user'], default: 'user' },
+  avatarPath: String,
   designation: String
 });
 

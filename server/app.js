@@ -6,31 +6,26 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+const connectDB = require('./config/db');
+const dotenv = require('dotenv');
+const cors = require('cors');
 
 // route files
-const authRoutes = require('./routes/auth');
 const employeeRoutes = require('./routes/employee');
 // express init
 const app = express();
 
+// Load env variables
+dotenv.config({ path: './server/config/config.env' });
+
 // mongoose connection to database
-mongoose
-  .connect(
-    'mongodb://dbAdmin:xh3cyH4d32@ds137801.mlab.com:37801/nodebucket-db-prod'
-  )
-  .then(() => {
-    console.log('Conneted to database!');
-  })
-  .catch(() => {
-    console.log('Connection to database failed!');
-  });
+connectDB();
 
 // middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/images', express.static(path.join('Server/images')));
-
+app.use(cors());
 // cors
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -46,7 +41,6 @@ app.use((req, res, next) => {
 });
 
 // express + routes
-app.use('/api/v2/auth', authRoutes);
-app.use('/api/v2/employee', employeeRoutes);
+app.use('/api/v2', employeeRoutes);
 
 module.exports = app;

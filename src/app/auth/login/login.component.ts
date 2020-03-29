@@ -1,40 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth.service';
 
 @Component({
-  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
-  authForm = new FormGroup({
-    empid: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^[0-9]/)
-    ]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(4)
-    ])
-  });
-
+export class LoginComponent {
   constructor(private authService: AuthService) {}
 
-  ngOnInit() {}
-
-  onSubmit() {
-    if (this.authForm.invalid) {
+  onSubmit(form: NgForm) {
+    console.log(form.value);
+    if (form.invalid) {
       return;
     }
-
-    this.authService.login(this.authForm.value).subscribe({
-      next: () => {},
-      error: ({ error }) => {
-        if (error.empid || error.password) {
-          this.authForm.setErrors({ credentials: true });
-        }
-      }
-    });
+    this.authService.login(form.value.empid, form.value.password);
   }
 }
