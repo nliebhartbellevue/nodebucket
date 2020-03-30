@@ -19,7 +19,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
-import { MaterialAngularSelectModule } from 'material-angular-select';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   exports: [
@@ -36,7 +37,8 @@ import { MaterialAngularSelectModule } from 'material-angular-select';
     MatSidenavModule,
     MatGridListModule,
     MatSelectModule,
-    MaterialAngularSelectModule
+    MatProgressBarModule,
+    MatExpansionModule
   ]
 })
 export class MaterialModule {}

@@ -12,6 +12,7 @@ const cors = require('cors');
 
 // route files
 const employeeRoutes = require('./routes/employee');
+const taskRoutes = require('./routes/task');
 // express init
 const app = express();
 
@@ -23,7 +24,7 @@ connectDB();
 
 // middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/images', express.static(path.join('Server/images')));
 app.use(cors());
 // cors
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
+  // allow for these HTTP methods
   res.setHeader(
     'Access-Control-Allow-Methods',
     'GET, POST, PATCH, PUT, DELETE, OPTIONS'
@@ -42,5 +44,6 @@ app.use((req, res, next) => {
 
 // express + routes
 app.use('/api/v2', employeeRoutes);
+app.use('/api/v2/task', taskRoutes);
 
 module.exports = app;

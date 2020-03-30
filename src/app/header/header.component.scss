@@ -1,0 +1,40 @@
+@import '../../variables';
+
+.mat-toolbar {
+  height: 110px;
+}
+
+.logo {
+  outline: none;
+  display: inline-flex;
+  .logo-img {
+    height: 100px;
+    padding-left: 10vw;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-top: 0;
+  padding-right: 20vw;
+}
+
+.nav-links__item {
+  color: white;
+  .nav-links__item--active {
+    color: $accent;
+  }
+}
+
+.route-loading {
+  height: 4px;
+  background-color: $primary;
+}

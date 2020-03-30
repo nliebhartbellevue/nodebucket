@@ -105,7 +105,7 @@ router.post('/auth/login', (req, res, next) => {
       const token = jwt.sign(
         {
           empid: tmpEmployee.empid,
-          email: tmpEmployee.email,
+          empObjId: tmpEmployee._id,
           role: tmpEmployee.role
         },
         process.env.JWT_SECRET,
@@ -114,9 +114,11 @@ router.post('/auth/login', (req, res, next) => {
       res.status(200).json({
         token,
         expiresIn: 3600,
+        empObjId: tmpEmployee._id,
         empid: tmpEmployee.empid,
         email: tmpEmployee.email,
-        role: tmpEmployee.role
+        role: tmpEmployee.role,
+        name: tmpEmployee.name
       });
     })
     .catch(err => {

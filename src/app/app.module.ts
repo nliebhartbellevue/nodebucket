@@ -10,6 +10,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 // Material Design
 import { MaterialModule } from './material.module';
@@ -21,9 +22,13 @@ import { RegisterComponent } from './auth/register/register.component';
 import { TaskListComponent } from './task/task-list/task-list.component';
 import { TaskCreateComponent } from './task/task-create/task-create.component';
 import { EmployeeTaskComponent } from './task/employee-task/employee-task.component';
+import { TaskComponent } from './task/task.component';
+import { ErrorComponent } from './error/error.component';
 // Services
 import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { AuthGuard } from './auth/auth.guard';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +38,10 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     RegisterComponent,
     TaskListComponent,
     TaskCreateComponent,
-    EmployeeTaskComponent
+    EmployeeTaskComponent,
+    TaskComponent,
+    ErrorComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
@@ -44,9 +52,11 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     FormsModule,
     NoopAnimationsModule,
     AppRoutingModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    DragDropModule
   ],
   providers: [
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

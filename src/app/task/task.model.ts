@@ -4,9 +4,11 @@
  * Description: NodeBucket
  */
 export interface Task {
-  id: string;
+  id?: string;
   title: string;
   content: string;
-  done: boolean;
-  creator: string;
+  status?: string;
+  assignedTo?: string;
+  createdBy?: string;
+  lastModifiedBy?: string;
 }

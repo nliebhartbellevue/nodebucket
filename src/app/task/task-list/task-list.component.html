@@ -1,3 +1,81 @@
-<p>
-  task-list works!
-</p>
+<mat-card>
+  <div fxLayout="row" fxLayout.sm="column" fxLayoutAlign="center">
+    <div class="container" fxFlex>
+      <h2>To Do</h2>
+      <div
+        cdkDropList
+        id="todo"
+        #todoList="cdkDropList"
+        class="list"
+        [cdkDropListData]="todo"
+        [cdkDropListConnectedTo]="[inProgressList, completeList]"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div
+          class="box"
+          *ngFor="let item of todo"
+          cdkDrag
+          data-id="{{ item.id }}"
+        >
+          <div cdkDragHandle>{{ item.title }}</div>
+          <div>
+            <mat-icon>drag_indicator</mat-icon>
+            <mat-icon class="delete">archive</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" fxFlex>
+      <h2>In Progress</h2>
+      <div
+        cdkDropList
+        id="inProgress"
+        #inProgressList="cdkDropList"
+        [cdkDropListData]="inProgress"
+        [cdkDropListConnectedTo]="[todoList, completeList]"
+        class="list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div
+          class="box"
+          *ngFor="let item of inProgress"
+          cdkDrag
+          data-id="{{ item.id }}"
+        >
+          <div cdkDragHandle>{{ item.title }}</div>
+          <div>
+            <mat-icon>drag_indicator</mat-icon>
+            <mat-icon class="delete">archive</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" fxFlex>
+      <h2>Complete</h2>
+      <div
+        cdkDropList
+        if="complete"
+        #completeList="cdkDropList"
+        [cdkDropListData]="complete"
+        [cdkDropListConnectedTo]="[todoList, inProgressList]"
+        class="list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div
+          class="box"
+          *ngFor="let item of complete"
+          cdkDrag
+          data-id="{{ item.id }}"
+        >
+          <div cdkDragHandle>{{ item.title }}</div>
+          <div>
+            <mat-icon>drag_indicator</mat-icon>
+            <mat-icon class="delete">achive</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>

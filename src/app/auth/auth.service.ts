@@ -18,6 +18,8 @@ export class AuthService {
   private tokenTimeout: any;
   private empid: string;
   private email: string;
+  private role: string;
+  private name: string;
   private authStatusListener = new Subject<boolean>();
   private baseUrl = 'http://localhost:5000/api/v2/auth';
 
@@ -42,6 +44,14 @@ export class AuthService {
   // get email
   getEmail() {
     return this.email;
+  }
+  // get role
+  getRole() {
+    return this.role;
+  }
+  //get name
+  getName() {
+    return this.name;
   }
 
   // register a new employee
@@ -74,10 +84,13 @@ export class AuthService {
   login(empid: string, password: string) {
     const authModel: AuthModel = { empid, password };
     this.http
-      .post<{ token: string; expiresIn: number; empid: string }>(
-        `${this.baseUrl}/login`,
-        authModel
-      )
+      .post<{
+        token: string;
+        expiresIn: number;
+        empid: string;
+        role: string;
+        name: string;
+      }>(`${this.baseUrl}/login`, authModel)
       .subscribe(response => {
         const token = response.token;
         this.token = token;
@@ -86,11 +99,13 @@ export class AuthService {
           this.setTimer(expiresInDuration);
           this.isAuthenticated = true;
           this.empid = response.empid;
+          this.role = response.role;
+          this.name = response.name;
           this.authStatusListener.next(true);
           const now = new Date();
           const expiration = new Date(now.getTime() + expiresInDuration * 1000);
-          this.saveAuth(token, expiration, this.empid);
-          this.router.navigate(['/']);
+          this.saveAuth(token, expiration, this.empid, this.role, this.name);
+          this.router.navigate(['/task']);
         }
         console.log(response);
       });
@@ -111,6 +126,8 @@ export class AuthService {
       this.token = authInfo.token;
       this.isAuthenticated = true;
       this.empid = authInfo.empid;
+      this.role = authInfo.role;
+      this.name = authInfo.name;
       this.setTimer(expiresIn / 1000);
       this.authStatusListener.next(true);
     }
@@ -126,8 +143,8 @@ export class AuthService {
     this.clearAuth();
     this.empid = null;
     this.email = null;
-    // TODO: chaekc if this reroute needs to be there
-    this.router.navigate(['/']);
+    this.role = null;
+    this.name = null;
   }
 
   // set timer til token expires
@@ -139,10 +156,18 @@ export class AuthService {
   }
 
   // save authentication data to local storage
-  private saveAuth(token: string, expiration: Date, empid: string) {
+  private saveAuth(
+    token: string,
+    expiration: Date,
+    empid: string,
+    role: string,
+    name: string
+  ) {
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expiration.toISOString());
     localStorage.setItem('empid', empid);
+    localStorage.setItem('role', role);
+    localStorage.setItem('name', name);
   }
 
   // clear local storage of all auth data
@@ -150,6 +175,8 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
     localStorage.removeItem('empid');
+    localStorage.removeItem('role');
+    localStorage.removeItem('name');
   }
 
   // get auth data from local stroage
@@ -157,6 +184,8 @@ export class AuthService {
     const token = localStorage.getItem('token');
     const expiration = localStorage.getItem('expiration');
     const empid = localStorage.getItem('empid');
+    const role = localStorage.getItem('role');
+    const name = localStorage.getItem('name');
 
     if (!token || !expiration) {
       return;
@@ -165,7 +194,9 @@ export class AuthService {
     return {
       token,
       expiration: new Date(expiration),
-      empid
+      empid,
+      role,
+      name
     };
   }
 }

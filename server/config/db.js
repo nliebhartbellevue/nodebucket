@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   const conn = await mongoose.connect(process.env.MONGO_URI, {
+    promiseLibrary: require('bluebird'),
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,

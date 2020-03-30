@@ -6,20 +6,15 @@
 const mongoose = require('mongoose');
 
 const taskSchema = new mongoose.Schema({
-  id: Number,
-  title: String,
-  people: Number,
-  skills: [
-    {
-      id: Number,
-      name: String
-    }
-  ],
-  startDate: Date,
-  endDate: Date,
-  start: Date,
-  end: Date,
-  bgColor: String
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  status: {
+    type: String,
+    enum: ['todo', 'progress', 'complete']
+  },
+  assignedTo: { type: String },
+  createdBy: { type: String },
+  lastModifiedBy: { type: String }
 });
 
 module.exports = mongoose.model('Task', taskSchema);

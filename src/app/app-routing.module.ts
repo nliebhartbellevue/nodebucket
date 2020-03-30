@@ -7,15 +7,21 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 // Components
-import { TaskListComponent } from './task/task-list/task-list.component';
+import { TaskComponent } from './task/task.component';
 import { EmployeeTaskComponent } from './task/employee-task/employee-task.component';
 import { TaskCreateComponent } from './task/task-create/task-create.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { ErrorComponent } from './error/error.component';
 import { AuthGuard } from './auth/auth.guard';
+import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
-  { path: '', component: TaskListComponent },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'task', component: TaskComponent, canActivate: [AuthGuard] },
   {
     path: 'emptask/:empid',
     component: EmployeeTaskComponent,
@@ -27,8 +33,7 @@ const routes: Routes = [
     component: TaskCreateComponent,
     canActivate: [AuthGuard]
   },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent }
+  { path: '**', component: ErrorComponent }
 ];
 
 @NgModule({

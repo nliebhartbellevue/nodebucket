@@ -1,40 +1,68 @@
-<mat-toolbar>
-  <span>
-    <a routerLink="/">
-      <img src="../../assets/logos/logo-250.png" alt="NodeBucket Logo small" />
-    </a>
-  </span>
+<div class="router-loader" *ngIf="{ loading: loading$ | async } as route">
+  <mat-progress-bar
+    *ngIf="route.loading"
+    color="accent"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</div>
+
+<mat-toolbar role="heading" color="primary" *ngIf="!empIsAuthenticated">
+  <a routerLink="/" class="logo">
+    <img
+      src="../../assets/logos/logo-250.png"
+      alt="NodeBucket Logo"
+      class="logo-img"
+    />
+  </a>
   <span class="spacer"></span>
-  <ul>
-    <li *ngIf="empIsAuthenticated">Employee: {{ email }} | (#{{ empid }})</li>
-    <li>
-      <a mat-button routerLink="/" routerLinkActive="mat-accent">All Tasks</a>
-    </li>
-    <li *ngIf="empIsAuthenticated">
-      <a
-        mat-button
-        routerLink="/emptask/{{ empid }}"
-        routerLinkActive="mat-accent"
-        >Tasks for #{{ empid }}</a
-      >
-    </li>
-    <li *ngIf="empIsAuthenticated">
-      <a mat-button routerLink="/create" routerLinkActive="mat-accent"
-        >Create Taks</a
-      >
-    </li>
-    <li *ngIf="!empIsAuthenticated">
-      <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>
-    </li>
-    <li *ngIf="!empIsAuthenticated">
-      <a mat-button routerLink="/register" routerLinkActive="mat-accent"
-        >Register</a
-      >
-    </li>
-    <li *ngIf="empIsAuthenticated">
-      <a mat-button routerLink="/logout" routerLinkActive="mat-accent"
-        >Logout</a
-      >
-    </li>
-  </ul>
+  <mat-nav-list class="nav-links">
+    <a
+      mat-list-item
+      class="app-login nav-links__item"
+      routerLink="/login"
+      routerLinkActive="nav-links__item--active"
+    >
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Login</span>
+    </a>
+    <a
+      mat-list-item
+      class="app-about nav-links__item"
+      routerLink="/about"
+      routerLinkActive="nav-links__item--active"
+    >
+      <mat-icon>help</mat-icon>
+      <span>About Us</span>
+    </a>
+  </mat-nav-list>
+</mat-toolbar>
+<mat-toolbar role="heading" color="primary" *ngIf="empIsAuthenticated">
+  <a routerLink="/" class="logo">
+    <img
+      src="../../assets/logos/logo-250.png"
+      alt="NodeBucket Logo"
+      class="logo-img"
+    />
+  </a>
+  <span class="spacer"></span>
+  <mat-nav-list class="nav-links">
+    <button
+      mat-icon-button
+      class="app-account nav-links__item"
+      [matMenuTriggerFor]="employeeMenu"
+    >
+      <mat-icon>account_circle</mat-icon>
+      <span color="accent">{{ name }} - EmpID #{{ empid }}</span>
+    </button>
+    <mat-menu #employeeMenu="matMenu">
+      <button mat-menu-item class="app-logout" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+      <a routerLink="/about" routerLinkActive="nav-links__item--active">
+        <mat-icon>help</mat-icon>
+        <span>About Us</span>
+      </a>
+    </mat-menu>
+  </mat-nav-list>
 </mat-toolbar>

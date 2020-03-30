@@ -1,3 +1,44 @@
-<p>
-  task-create works!
-</p>
+<mat-card>
+  <form [formGroup]="form" (submit)="onSaveTask()">
+    <mat-form-field>
+      <mat-label>Task Title</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="title"
+        placeholder="Task Title"
+      />
+      <mat-error *ngIf="form.get('title').invalid"
+        >Task Title is required</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Task Content</mat-label>
+      <textarea
+        matInput
+        rows="4"
+        formControlName="content"
+        placeholder="Task Content"
+      ></textarea>
+      <mat-error *ngIf="form.get('content').invalid"
+        >Task content is required</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Task Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="todo">To Do</mat-option>
+        <mat-option value="progress">In Progress</mat-option>
+        <mat-option value="complete">Complete</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Assiged To</mat-label>
+      <input
+        matInput
+        formControlName="empid"
+        placeholder="Assign this task to an employee with their empid"
+      />
+    </mat-form-field>
+  </form>
+</mat-card>
