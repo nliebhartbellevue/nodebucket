@@ -1,4 +1,77 @@
 <app-header></app-header>
-<main>
+<main class="content" *ngIf="isAuthenticated">
+  <app-drawer>
+    <div class="board">
+      <div class="card-list mat-elevation-z1">
+        <h2 class="mat-h2 todo">
+          ToDo's
+        </h2>
+        <div
+          cdkDropList
+          class="card-list-content"
+          #todoList="cdkDropList"
+          id="todo"
+          [cdkDropListData]="todo"
+          [cdkDropListConnectedTo]="[progressList, completeList]"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <app-card
+            cdkDrag
+            *ngFor="let task of todo"
+            [title]="task.title"
+            [assignedTo]="task.assignedTo"
+            [createdBy]="task.createdBy"
+          ></app-card>
+        </div>
+      </div>
+      <div class="card-list mat-elevation-z1">
+        <h2 class="mat-h2 progress">
+          In Progress
+        </h2>
+        <div
+          cdkDropList
+          class="card-list-content"
+          #progressList="cdkDropList"
+          id="progress"
+          [cdkDropListData]="progress"
+          [cdkDropListConnectedTo]="[todoList, completeList]"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <app-card
+            cdkDrag
+            *ngFor="let task of progress"
+            [title]="task.title"
+            [assignedTo]="task.assignedTo"
+            [createdBy]="task.createdBy"
+          ></app-card>
+        </div>
+      </div>
+      <div class="card-list mat-elevation-z1">
+        <h2 class="mat-h2 complete">
+          Complete
+        </h2>
+        <div
+          cdkDropList
+          class="card-list-content"
+          #completeList="cdkDropList"
+          id="complete"
+          [cdkDropListData]="complete"
+          [cdkDropListConnectedTo]="[todoList, progressList]"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <app-card
+            cdkDrag
+            *ngFor="let task of complete"
+            [title]="task.title"
+            [assignedTo]="task.assignedTo"
+            [createdBy]="task.createdBy"
+          ></app-card>
+        </div>
+      </div>
+    </div>
+  </app-drawer>
+</main>
+
+<main class="content" *ngIf="!isAuthenticated">
   <router-outlet></router-outlet>
 </main>

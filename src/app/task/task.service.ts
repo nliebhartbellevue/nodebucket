@@ -11,6 +11,16 @@ import { Router } from '@angular/router';
 import { Task } from './task.model';
 import { AuthService } from '../auth/auth.service';
 
+export interface Step {
+  id: string;
+  title: string;
+  tasks: Task[];
+}
+
+export interface Board {
+  steps: Step[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,12 +28,18 @@ export class TaskService {
   private tasks: Task[] = [];
   private tasksUpdated = new Subject<{ tasks: Task[] }>();
   private baseUrl = 'http://localhost:5000/api/v2/task';
+  private boards$: Board[] = require('../../data.json');
+  currentBoard = this.boards$[0];
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private authService: AuthService
   ) {}
+
+  getBoards(): Board[] {
+    return this.boards$;
+  }
 
   getTasks() {
     this.http
@@ -106,10 +122,10 @@ export class TaskService {
   ) {
     const task: Task = {
       id: null,
-      title: title,
-      content: content,
-      status: status,
-      assignedTo: assignedTo,
+      title,
+      content,
+      status,
+      assignedTo,
       createdBy: this.authService.getEmpid()
     };
     this.http
@@ -135,13 +151,13 @@ export class TaskService {
     lastModifiedBy: string
   ) {
     const task: Task = {
-      id: id,
-      title: title,
-      content: content,
-      status: status,
-      assignedTo: assignedTo,
+      id,
+      title,
+      content,
+      status,
+      assignedTo,
       createdBy: creadtedBy,
-      lastModifiedBy: lastModifiedBy
+      lastModifiedBy
     };
     this.http.put(`${this.baseUrl}/id`, task).subscribe(response => {
       const updatedTasks = [...this.tasks];

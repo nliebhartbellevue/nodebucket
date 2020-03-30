@@ -7,6 +7,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  hide = true;
   constructor(private authService: AuthService) {}
 
   onSubmit(form: NgForm) {

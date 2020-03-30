@@ -1,0 +1,21 @@
+[
+  {
+    "steps": [
+      {
+        "id": "todo",
+        "title": "ToDo's",
+        "tasks": []
+      },
+      {
+        "id": "progress",
+        "title": "In Progress",
+        "tasks": []
+      },
+      {
+        "id": "complete",
+        "title": "Complete",
+        "tasks": []
+      }
+    ]
+  }
+]

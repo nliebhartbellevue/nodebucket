@@ -49,7 +49,7 @@ export class AuthService {
   getRole() {
     return this.role;
   }
-  //get name
+  // get name
   getName() {
     return this.name;
   }
@@ -65,13 +65,13 @@ export class AuthService {
     designation: string
   ) {
     const authModel: AuthModel = {
-      empid: empid,
-      password: password,
-      name: name,
-      email: email,
-      role: role,
-      avatarPath: avatarPath,
-      designation: designation
+      empid,
+      password,
+      name,
+      email,
+      role,
+      avatarPath,
+      designation
     };
     this.http
       .post(`${this.baseUrl}/register`, authModel)

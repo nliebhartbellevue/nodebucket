@@ -1,0 +1,59 @@
+@import '../../../variables';
+.container {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 500px;
+  margin-top: 20vh;
+  background-color: #fbd5ff;
+}
+
+.header-image {
+  background-image: url('../../../assets/logos/logo-250.png');
+  background-size: cover;
+  margin: auto;
+}
+
+.mat-card-avatar {
+  height: 80px;
+  width: 80px;
+}
+
+.form-field {
+  width: 60%;
+  margin: auto;
+  mat-label {
+    color: $primary;
+    font-weight: 500;
+  }
+}
+
+.title {
+  margin: auto;
+  padding-bottom: 15px;
+  text-align: center;
+  color: $primary;
+  font-weight: bold;
+}
+
+.error {
+  margin-bottom: 0.5em;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-btn {
+  width: 60%;
+  left: 20%;
+  span {
+    text-transform: uppercase;
+    font-size: medium;
+  }
+}

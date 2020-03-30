@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-card-content>
+    {{ title }}
+    <div *ngIf="assignedTo">
+      <mat-chip-list>
+        <mat-chip>Assigned To: {{ assignedTo }}</mat-chip>
+      </mat-chip-list>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="author" *ngIf="createdBy">By: {{ createdBy }}</div>
+    <button mat-button>EDIT</button>
+  </mat-card-actions>
+</mat-card>

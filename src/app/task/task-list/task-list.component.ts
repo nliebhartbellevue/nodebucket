@@ -14,8 +14,6 @@ import { Task } from '../task.model';
 import { TaskService } from '../task.service';
 import { AuthService } from '../../auth/auth.service';
 
-export interface Board {}
-
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
@@ -29,8 +27,6 @@ export class TaskListComponent implements OnInit, OnDestroy {
   empid: string;
   private tasksSub: Subscription;
   private authStatusSub: Subscription;
-
-  boards;
 
   constructor(
     public taskService: TaskService,

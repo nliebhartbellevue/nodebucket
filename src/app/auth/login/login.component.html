@@ -1,6 +1,7 @@
-<div class="my-5 py-5" fxLayout="row" fxLayoutAlign="center center">
-  <mat-card>
-    <mat-card-title>Login</mat-card-title>
+<div class="my-5 py-5 container" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card class="card" tabindex="0" role="form">
+    <div mat-card-avatar class="header-image"></div>
+    <mat-card-title class="title">Login</mat-card-title>
     <mat-card-content>
       <form
         (submit)="onSubmit(loginForm)"
@@ -8,37 +9,49 @@
         fxLayout="column"
         fxLayoutGap="15px"
       >
-        <mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Employee ID</mat-label>
           <input
             matInput
             name="empid"
             ngModel
             type="text"
-            placeholder="Employee ID"
             #empidInput="ngModel"
             required
             empid
           />
-          <mat-error *ngIf="empidInput.invalid"
+          <mat-error class="error" *ngIf="empidInput.invalid"
             >Please check you credentials and try again!</mat-error
           >
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class="form-field">
+          <mat-label>Password</mat-label>
           <input
             matInput
             name="password"
             ngModel
-            type="password"
-            placeholder="Please enter your password."
+            [type]="hide ? 'password' : 'text'"
             #passwordInput="ngModel"
             required
             password
           />
-          <mat-error *ngIf="passwordInput.invalid"
+          <button mat-icon-button matSuffix (click)="hide = !hide">
+            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error class="error" *ngIf="passwordInput.invalid"
             >Please check you credentials and try again!</mat-error
           >
         </mat-form-field>
-        <button mat-raised-button color="primary" type="submit">Login</button>
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            color="primary"
+            class="login-btn"
+            type="submit"
+          >
+            <span>Login</span>
+          </button>
+        </mat-card-actions>
       </form>
     </mat-card-content>
   </mat-card>

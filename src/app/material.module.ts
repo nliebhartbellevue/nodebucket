@@ -21,6 +21,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   exports: [
@@ -38,7 +39,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatGridListModule,
     MatSelectModule,
     MatProgressBarModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatChipsModule
   ]
 })
 export class MaterialModule {}

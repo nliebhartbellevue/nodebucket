@@ -21,14 +21,15 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { TaskListComponent } from './task/task-list/task-list.component';
 import { TaskCreateComponent } from './task/task-create/task-create.component';
-import { EmployeeTaskComponent } from './task/employee-task/employee-task.component';
 import { TaskComponent } from './task/task.component';
+import { DrawerComponent } from './drawer/drawer.component';
+import { AboutComponent } from './about/about.component';
+import { CardComponent } from './card/card.component';
 import { ErrorComponent } from './error/error.component';
 // Services
 import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { AuthGuard } from './auth/auth.guard';
-import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -38,10 +39,11 @@ import { AboutComponent } from './about/about.component';
     RegisterComponent,
     TaskListComponent,
     TaskCreateComponent,
-    EmployeeTaskComponent,
     TaskComponent,
     ErrorComponent,
-    AboutComponent
+    AboutComponent,
+    DrawerComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,
