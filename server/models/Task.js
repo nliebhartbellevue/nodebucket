@@ -12,9 +12,7 @@ const taskSchema = new mongoose.Schema({
     type: String,
     enum: ['todo', 'progress', 'complete']
   },
-  assignedTo: { type: String },
-  createdBy: { type: String },
-  lastModifiedBy: { type: String }
+  assignedTo: { type: String }
 });
 
 module.exports = mongoose.model('Task', taskSchema);

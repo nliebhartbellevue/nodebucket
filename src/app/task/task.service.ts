@@ -53,8 +53,7 @@ export class TaskService {
               status: task.status,
               assignedTo: task.assignedTo,
               createdBy: task.createdBy,
-              lastModifiedBy: task.lastModifiedBy,
-              id: task._id
+              _id: task._id
             };
           });
         })
@@ -77,13 +76,12 @@ export class TaskService {
         map(taskData => {
           return taskData.tasks.map(task => {
             return {
-              id: task._id,
+              _id: task._id,
               title: task.title,
               content: task.content,
               status: task.status,
               assignedTo: task.assignedTo,
-              createdBy: task.createdBy,
-              lastModifiedBy: task.lastModifiedBy
+              createdBy: task.createdBy
             };
           });
         })
@@ -101,7 +99,7 @@ export class TaskService {
     return this.tasksUpdated.asObservable();
   }
 
-  getTask(id: string) {
+  getTask(_id: string) {
     return this.http.get<{
       _id: string;
       title: string;
@@ -110,7 +108,7 @@ export class TaskService {
       assignedTo: string;
       createdBy: string;
       lastModifiedBy: string;
-    }>(`${this.baseUrl}/id`);
+    }>(`${this.baseUrl}/_id`);
   }
 
   addTask(
@@ -121,7 +119,7 @@ export class TaskService {
     status: string
   ) {
     const task: Task = {
-      id: null,
+      _id: null,
       title,
       content,
       status,
@@ -131,8 +129,8 @@ export class TaskService {
     this.http
       .post<{ message: string; taskId: string }>(`${this.baseUrl}`, task)
       .subscribe(responseData => {
-        const id = responseData.taskId;
-        task.id = id;
+        const _id = responseData.taskId;
+        task._id = _id;
         this.tasks.push(task);
         this.tasksUpdated.next({
           tasks: [...this.tasks]
@@ -141,27 +139,10 @@ export class TaskService {
       });
   }
 
-  updateTask(
-    id: string,
-    title: string,
-    content: string,
-    status: string,
-    assignedTo: string,
-    creadtedBy: string,
-    lastModifiedBy: string
-  ) {
-    const task: Task = {
-      id,
-      title,
-      content,
-      status,
-      assignedTo,
-      createdBy: creadtedBy,
-      lastModifiedBy
-    };
-    this.http.put(`${this.baseUrl}/id`, task).subscribe(response => {
+  updateTask(task: Task) {
+    this.http.put(`${this.baseUrl}/_id`, task).subscribe(response => {
       const updatedTasks = [...this.tasks];
-      const oldTaskIndex = updatedTasks.findIndex(t => t.id === task.id);
+      const oldTaskIndex = updatedTasks.findIndex(t => t._id === task._id);
       updatedTasks[oldTaskIndex] = task;
       this.tasks = updatedTasks;
       this.tasksUpdated.next({
@@ -174,7 +155,7 @@ export class TaskService {
   updateTaskStatus(task: Task) {
     this.http
       .patch<{ message: string; task: Task }>(
-        `${this.baseUrl}/` + task.id,
+        `${this.baseUrl}/` + task._id,
         task
       )
       .subscribe(taskData => {});
@@ -182,7 +163,7 @@ export class TaskService {
 
   deleteTask(taskId: string) {
     this.http.delete(`${this.baseUrl}/taskId`).subscribe(() => {
-      const updatedTasks = this.tasks.filter(task => task.id !== taskId);
+      const updatedTasks = this.tasks.filter(task => task._id !== taskId);
       this.tasks = updatedTasks;
       this.tasksUpdated.next({
         tasks: [...this.tasks]

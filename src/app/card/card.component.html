@@ -9,6 +9,7 @@
   </mat-card-content>
   <mat-card-actions>
     <div class="author" *ngIf="createdBy">By: {{ createdBy }}</div>
-    <button mat-button>EDIT</button>
+    <button mat-button (click)="delete.next()">DELETE</button>
+    <button mat-button (click)="edit.next()">EDIT</button>
   </mat-card-actions>
 </mat-card>

@@ -19,12 +19,12 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
-import { TaskListComponent } from './task/task-list/task-list.component';
-import { TaskCreateComponent } from './task/task-create/task-create.component';
 import { TaskComponent } from './task/task.component';
 import { DrawerComponent } from './drawer/drawer.component';
 import { AboutComponent } from './about/about.component';
 import { CardComponent } from './card/card.component';
+import { TaskEditComponent } from './task/task-edit/task-edit.component';
+import { TaskDeleteComponent } from './task/task-delete/task-delete.component';
 import { ErrorComponent } from './error/error.component';
 // Services
 import { AppRoutingModule } from './app-routing.module';
@@ -37,13 +37,13 @@ import { AuthGuard } from './auth/auth.guard';
     HeaderComponent,
     LoginComponent,
     RegisterComponent,
-    TaskListComponent,
-    TaskCreateComponent,
     TaskComponent,
     ErrorComponent,
     AboutComponent,
     DrawerComponent,
-    CardComponent
+    CardComponent,
+    TaskEditComponent,
+    TaskDeleteComponent
   ],
   imports: [
     BrowserModule,

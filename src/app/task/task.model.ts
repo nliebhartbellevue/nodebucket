@@ -4,7 +4,7 @@
  * Description: NodeBucket
  */
 export interface Task {
-  id?: string;
+  _id?: string;
   title: string;
   content: string;
   status?: string;

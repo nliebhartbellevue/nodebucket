@@ -9,10 +9,13 @@ import {
   moveItemInArray,
   transferArrayItem
 } from '@angular/cdk/drag-drop';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { AuthService } from './auth/auth.service';
-import { TaskService, Step } from './task/task.service';
+import { TaskService } from './task/task.service';
 import { Task } from './task/task.model';
+import { TaskEditComponent } from './task/task-edit/task-edit.component';
+import { TaskDeleteComponent } from './task/task-delete/task-delete.component';
 
 @Component({
   selector: 'app-root',
@@ -25,13 +28,13 @@ export class AppComponent implements OnInit, OnDestroy {
   progress: Task[] = [];
   complete: Task[] = [];
   empid: string;
-  stepTodo;
   public tasksSub: Subscription;
   public authSub: Subscription;
 
   constructor(
     private authService: AuthService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -63,9 +66,27 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.taskService.currentBoard;
   }
 
+  editTask(task: Task) {
+    this.dialog
+      .open(TaskEditComponent, { data: task, width: '500px' })
+      .afterClosed()
+      .subscribe(result => {});
+  }
+
+  deleteTask(task: Task) {
+    this.dialog
+      .open(TaskDeleteComponent, { data: task, width: '500px' })
+      .afterClosed()
+      .subscribe(response => {
+        if (response) {
+          this.taskService.deleteTask(task._id);
+        }
+      });
+  }
+
   drop(event: CdkDragDrop<string[]>) {
     const task: Task = {
-      id: event.item.element.nativeElement.getAttribute('id'),
+      _id: event.item.element.nativeElement.getAttribute('id'),
       title: null,
       content: null,
       status: event.container.element.nativeElement.id,

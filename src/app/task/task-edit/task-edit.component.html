@@ -1,0 +1,29 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input hidden formControlName="_id" />
+    <mat-label>Task Title</mat-label>
+    <input matInput required formControlName="title" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Task Content</mat-label>
+    <textarea matInput formControlName="content"></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Task Status</mat-label>
+    <mat-select formControlName="status">
+      <mat-option value="todo">To Do</mat-option>
+      <mat-option value="progress">In Progress</mat-option>
+      <mat-option value="complete">Complete</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Task Assign To</mat-label>
+    <input matInput formControlName="assignedTo" />
+  </mat-form-field>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button type="submit" [disabled]="formGroup.invalid">
+      Update
+    </button>
+  </mat-dialog-actions>
+</form>

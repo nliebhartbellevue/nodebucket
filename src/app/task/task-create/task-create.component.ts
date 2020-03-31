@@ -43,13 +43,12 @@ export class TaskCreateComponent implements OnInit {
         this.taskId = paramMap.get('taskId');
         this.taskService.getTask(this.taskId).subscribe(taskData => {
           this.task = {
-            id: taskData._id,
+            _id: taskData._id,
             title: taskData.title,
             content: taskData.content,
             status: taskData.status,
             assignedTo: taskData.assignedTo,
-            createdBy: taskData.createdBy,
-            lastModifiedBy: taskData.lastModifiedBy
+            createdBy: taskData.createdBy
           };
           this.form.setValue({
             title: this.task.title,
@@ -77,16 +76,6 @@ export class TaskCreateComponent implements OnInit {
         this.form.value.assignedTo,
         this.form.value.createdBy,
         this.form.value.status
-      );
-    } else {
-      this.taskService.updateTask(
-        this.taskId,
-        this.form.value.title,
-        this.form.value.content,
-        this.form.value.status,
-        this.form.value.assignedTo,
-        this.form.value.createdBy,
-        this.form.value.lastModifiedBy
       );
     }
 

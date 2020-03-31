@@ -17,10 +17,13 @@
         >
           <app-card
             cdkDrag
+            data-id="{{ task._id }}"
             *ngFor="let task of todo"
             [title]="task.title"
             [assignedTo]="task.assignedTo"
             [createdBy]="task.createdBy"
+            (edit)="editTask(task)"
+            (delete)="deleteTask(task)"
           ></app-card>
         </div>
       </div>
@@ -39,10 +42,13 @@
         >
           <app-card
             cdkDrag
+            data-id="{{ task._id }}"
             *ngFor="let task of progress"
             [title]="task.title"
             [assignedTo]="task.assignedTo"
             [createdBy]="task.createdBy"
+            (edit)="editTask(task)"
+            (delete)="deleteTask(task)"
           ></app-card>
         </div>
       </div>
@@ -61,10 +67,13 @@
         >
           <app-card
             cdkDrag
+            data-id="{{ task._id }}"
             *ngFor="let task of complete"
             [title]="task.title"
             [assignedTo]="task.assignedTo"
             [createdBy]="task.createdBy"
+            (edit)="editTask(task)"
+            (delete)="deleteTask(task)"
           ></app-card>
         </div>
       </div>
