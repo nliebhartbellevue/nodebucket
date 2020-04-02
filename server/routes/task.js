@@ -39,17 +39,13 @@ router.post('', auth, (req, res, next) => {
  */
 router.put('/:id', auth, (req, res, next) => {
   const task = new Task({
-    _id: req.body._id,
+    _id: req.params.id,
     title: req.body.title,
     content: req.body.content,
     status: req.body.status,
-    assignedTo: req.body.assignedTo,
-    lastModifiedBy: req.userData.empid
+    assignedTo: req.body.assignedTo
   });
-  Task.updateOne(
-    { _id: req.params, lastModifiedBy: req.userData.empid },
-    task
-  ).then(result => {
+  Task.findByIdAndUpdate(req.params.id, task).then(result => {
     if (result.nModified > 0) {
       res.status(200).json({
         message: `Task updated by ${result.createdBy}`

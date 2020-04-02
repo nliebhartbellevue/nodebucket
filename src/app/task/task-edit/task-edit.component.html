@@ -1,6 +1,5 @@
-<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+<form [formGroup]="formGroup" (submit)="onSubmit()">
   <mat-form-field>
-    <input hidden formControlName="_id" />
     <mat-label>Task Title</mat-label>
     <input matInput required formControlName="title" />
   </mat-form-field>

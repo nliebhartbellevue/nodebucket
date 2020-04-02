@@ -4,7 +4,7 @@
  * Description: NodeBucket
  */
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TaskService } from '../task.service';
 import { Task } from '../task.model';
@@ -20,28 +20,19 @@ export class TaskEditComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public task: Task,
     private dialogRef: MatDialogRef<TaskEditComponent>,
-    formBuilder: FormBuilder,
     private taskService: TaskService
   ) {
-    this.formGroup = formBuilder.group({
-      _id: [task._id],
-      title: [task.title, Validators.required],
-      content: [task.content],
-      status: [task.status],
-      assignedTo: [task.assignedTo]
+    this.formGroup = new FormGroup({
+      title: new FormControl(task.title, {
+        validators: [Validators.required]
+      }),
+      content: new FormControl(task.content),
+      status: new FormControl(task.status),
+      assignedTo: new FormControl(task.assignedTo)
     });
   }
 
   onSubmit(formGroup: FormGroup) {
-    const task: Task = {
-      _id: this.formGroup.value._id,
-      title: this.formGroup.value.title,
-      content: this.formGroup.value.content,
-      status: this.formGroup.value.status,
-      assignedTo: this.formGroup.value.assignedTo
-    };
-
-    this.taskService.updateTask(task);
-    this.dialogRef.close();
+    this.dialogRef.close(this.formGroup.value);
   }
 }

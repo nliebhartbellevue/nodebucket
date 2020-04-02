@@ -24,6 +24,7 @@ import { TaskDeleteComponent } from './task/task-delete/task-delete.component';
 })
 export class AppComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean;
+  task: Task;
   todo: Task[] = [];
   progress: Task[] = [];
   complete: Task[] = [];
@@ -68,9 +69,18 @@ export class AppComponent implements OnInit, OnDestroy {
 
   editTask(task: Task) {
     this.dialog
-      .open(TaskEditComponent, { data: task, width: '500px' })
+      .open(TaskEditComponent, { width: '500px', data: task })
       .afterClosed()
-      .subscribe(result => {});
+      .subscribe(
+        response => {
+          this.task = response;
+          console.log(task);
+          this.taskService.updateTask(task);
+        },
+        err => {
+          console.log('Error' + err);
+        }
+      );
   }
 
   deleteTask(task: Task) {

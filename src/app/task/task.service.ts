@@ -99,7 +99,7 @@ export class TaskService {
     return this.tasksUpdated.asObservable();
   }
 
-  getTask(_id: string) {
+  getTask(id: string) {
     return this.http.get<{
       _id: string;
       title: string;
@@ -140,26 +140,35 @@ export class TaskService {
   }
 
   updateTask(task: Task) {
-    this.http.put(`${this.baseUrl}/_id`, task).subscribe(response => {
-      const updatedTasks = [...this.tasks];
-      const oldTaskIndex = updatedTasks.findIndex(t => t._id === task._id);
-      updatedTasks[oldTaskIndex] = task;
-      this.tasks = updatedTasks;
-      this.tasksUpdated.next({
-        tasks: [...this.tasks]
-      });
-      this.router.navigate(['/']);
-    });
+    this.http.put(`${this.baseUrl}/task._id`, task).subscribe(
+      response => {
+        console.log(response);
+        const updatedTasks = [...this.tasks];
+        const oldTaskIndex = updatedTasks.findIndex(t => t._id === task._id);
+        updatedTasks[oldTaskIndex] = task;
+        this.tasks = updatedTasks;
+        this.tasksUpdated.next({
+          tasks: [...this.tasks]
+        });
+        this.router.navigate(['/']);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   updateTaskStatus(task: Task) {
     this.http
       .patch<{ message: string; task: Task }>(
-        `${this.baseUrl}/` + task._id,
+        `${this.baseUrl}/task.id`,
+
         task
       )
       .subscribe(taskData => {});
+    console.log(task._id);
   }
+  _;
 
   deleteTask(taskId: string) {
     this.http.delete(`${this.baseUrl}/taskId`).subscribe(() => {
