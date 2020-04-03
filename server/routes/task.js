@@ -44,18 +44,15 @@ router.put('/:id', auth, (req, res, next) => {
     content: req.body.content,
     status: req.body.status,
     assignedTo: req.body.assignedTo
-  });
-  Task.findByIdAndUpdate(req.params.id, task).then(result => {
-    if (result.nModified > 0) {
-      res.status(200).json({
-        message: `Task updated by ${result.createdBy}`
-      });
-    } else {
-      res.status(401).json({
-        message: 'Authorization Needed!'
-      });
-    }
-  });
+  })
+  Task.updateOne({ _id: req.params.id }, task).then(result => {
+    res.status(201).json({
+      message: `Task ${task._id} updated successfully`,
+      taskId: result._id
+    })
+  }).catch(e => {
+    console.log("There was an Error updating " + e);
+  })
 });
 
 /**

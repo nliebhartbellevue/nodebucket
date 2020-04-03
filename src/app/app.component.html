@@ -72,7 +72,7 @@
             [title]="task.title"
             [assignedTo]="task.assignedTo"
             [createdBy]="task.createdBy"
-            (edit)="editTask(task)"
+            (edit)="editTask(task, task._id)"
             (delete)="deleteTask(task)"
           ></app-card>
         </div>

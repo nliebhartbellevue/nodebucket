@@ -1,15 +1,40 @@
-<form [formGroup]="formGroup" (submit)="onSubmit()">
+<form
+  (submit)="onSubmit(editForm)"
+  #editForm="ngForm"
+>
+  <input hidden name="_id" ngModel #idInput="ngModel" [ngModel]="task._id" >
   <mat-form-field>
     <mat-label>Task Title</mat-label>
-    <input matInput required formControlName="title" />
+    <input
+      matInput
+      required
+      name="title"
+      ngModel
+      #titleInput="ngModel"
+      [ngModel]="task.title"
+    />
+    <mat-error *ngIf="titleInput.invalid">Title is required!</mat-error>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Task Content</mat-label>
-    <textarea matInput formControlName="content"></textarea>
+    <textarea
+      matInput
+      rows="4"
+      name="content"
+      [ngModel]="task.content"
+      required
+      #contentInput="ngModel"
+    ></textarea>
+    <mat-error *ngIf="contentInput.invalid">Task content is required!</mat-error>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Task Status</mat-label>
-    <mat-select formControlName="status">
+    <mat-select
+      matInput
+      name="status"
+      [ngModel]="task.status"
+      #statusInput="ngModel"
+    >
       <mat-option value="todo">To Do</mat-option>
       <mat-option value="progress">In Progress</mat-option>
       <mat-option value="complete">Complete</mat-option>
@@ -17,11 +42,16 @@
   </mat-form-field>
   <mat-form-field>
     <mat-label>Task Assign To</mat-label>
-    <input matInput formControlName="assignedTo" />
+    <input
+      matInput
+      name="assignedTo"
+      [ngModel]="task.assignedTo"
+      #assignedToInput="ngModel"
+    />
   </mat-form-field>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button type="submit" [disabled]="formGroup.invalid">
+    <button mat-button type="submit" [disabled]="editForm.invalid">
       Update
     </button>
   </mat-dialog-actions>

@@ -11,31 +11,7 @@ const employeeSchema = new mongoose.Schema({
   password: { type: String, required: true },
   name: { type: String, required: true },
   role: { type: String, enum: ['admin', 'manager', 'user'], default: 'user' },
-  deleted: Boolean,
-  todo: {
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Task'
-      }
-    ]
-  },
-  inProcess: {
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Task'
-      }
-    ]
-  },
-  done: {
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Task'
-      }
-    ]
-  }
+  deleted: Boolean
 });
 
 employeeSchema.plugin(uniqueValidator);

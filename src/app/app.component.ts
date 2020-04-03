@@ -73,9 +73,12 @@ export class AppComponent implements OnInit, OnDestroy {
       .afterClosed()
       .subscribe(
         response => {
-          this.task = response;
-          console.log(task);
-          this.taskService.updateTask(task);
+          if (response) {
+            console.log(response);
+            this.taskService.updateTask(response);
+          } else {
+            console.log('No Response');
+          }
         },
         err => {
           console.log('Error' + err);

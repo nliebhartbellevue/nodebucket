@@ -14,6 +14,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 // Material Design
 import { MaterialModule } from './material.module';
+// Kendo UI
+import { KendoModule } from './kendo.module';
 // Components
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -49,6 +51,7 @@ import { AuthGuard } from './auth/auth.guard';
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
+    KendoModule,
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,

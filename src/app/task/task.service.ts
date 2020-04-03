@@ -129,6 +129,7 @@ export class TaskService {
     this.http
       .post<{ message: string; taskId: string }>(`${this.baseUrl}`, task)
       .subscribe(responseData => {
+        // tslint:disable-next-line:variable-name
         const _id = responseData.taskId;
         task._id = _id;
         this.tasks.push(task);
@@ -140,17 +141,22 @@ export class TaskService {
   }
 
   updateTask(task: Task) {
-    this.http.put(`${this.baseUrl}/task._id`, task).subscribe(
+    console.log(task._id);
+    this.http.put(`${this.baseUrl}/` + task._id, task).subscribe(
       response => {
-        console.log(response);
-        const updatedTasks = [...this.tasks];
-        const oldTaskIndex = updatedTasks.findIndex(t => t._id === task._id);
-        updatedTasks[oldTaskIndex] = task;
-        this.tasks = updatedTasks;
-        this.tasksUpdated.next({
-          tasks: [...this.tasks]
-        });
-        this.router.navigate(['/']);
+        if (response) {
+          console.log(response);
+          const updatedTasks = [...this.tasks];
+          const oldTaskIndex = updatedTasks.findIndex(t => t._id === task._id);
+          updatedTasks[oldTaskIndex] = task;
+          this.tasks = updatedTasks;
+          this.tasksUpdated.next({
+            tasks: [...this.tasks]
+          });
+          this.router.navigate(['/']);
+        } else {
+          console.log('Problem with response');
+        }
       },
       err => {
         console.log(err);
