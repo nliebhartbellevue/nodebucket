@@ -1,1 +1,1 @@
-web: node server.js && ng build
+web: build
