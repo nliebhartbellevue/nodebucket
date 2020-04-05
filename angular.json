@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/nodebucket-ui",
+            "outputPath": "dist/nodebucket",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -66,18 +66,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "nodebucket-ui:build"
+            "browserTarget": "nodebucket:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "nodebucket-ui:build:production"
+              "browserTarget": "nodebucket:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "nodebucket-ui:build"
+            "browserTarget": "nodebucket:build"
           }
         },
         "test": {
