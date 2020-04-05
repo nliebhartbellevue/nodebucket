@@ -25,10 +25,7 @@
             "aot": false,
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css",
-              "../node_modules/ng2-dnd/style.css",
-              "../node_modules/@progress/kendo-theme-default/dist/all.css",
-              "../node_modules/fullcalendar/dist/fullcalendar.min.css",
+              "node_modules/ng2-dnd/style.css",
               "src/custom-theme.scss",
               "src/styles.scss"
             ],

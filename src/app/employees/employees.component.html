@@ -1,0 +1,147 @@
+<div class="peoples">
+  <p>Team Members</p><br>
+  <span class="contents" *ngFor="let employee of employees">
+    <button id="contents" mat-button (click)="openShortProfile(employee)">
+      <img src="{{ employee.avatarPath }}}" (mouseover)="mouseover(employee.name)" (mouseleave)="mouseleave()" alt="{{ employee.name }}">
+    </button>
+  </span>
+
+  <button mat-button class="add-employee" type="button" data-toggle="modal" data-target="#newEmpModal" (click)="openPopup()">
+    <i class="fa fa-plus"></i>
+  </button>
+  <br>
+  <div class="popup-wrapper">
+    <div class="modal fade" role="dialog" *ngIf="openedShortProfile">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-header">
+          <h4 class="modal-title">{{ selectedEmployeeName }} Details</h4>
+          <button class="close" type="button" (close)="closeShortProfile('cancel')">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body main-body">
+          <img src="{{ selectedEmployeeAvatar }}" alt="{{ selectedEmployeeName }}">
+          <h2>{{ selectedEmployeeName }}</h2>
+          <h4>{{ selectedEmployeeDesignation }}</h4>
+        </div>
+      </div>
+    </div>
+    <div id="popup" style="display: none;">{{ selectedEmployeeName }}</div>
+    <div class="modal fade" id="newEmpModal" role="dialog" *ngIf="opened">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newEmpModalLabel">Add New Employee!</h5>
+            <button class="close" type="button" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form
+              #empForm="ngForm"
+            >
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="empid">Employee ID</label>
+                  <input
+                    class="form-control"
+                    id="empid"
+                    name="empid"
+                    ngModel
+                    placeholder="Employee ID"
+                    #empidInput="ngModel"
+                    required
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="name">Employee's Full Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    ngModel
+                    placeholder="Full Name"
+                    #nameInput="ngModel"
+                    required
+                  >
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="email">Email Address</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    ngModel
+                    placeholder="Email Address"
+                    #emailInput="ngModel"
+                  >
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="role">Role</label>
+                  <select
+                    name="role"
+                    id="role"
+                    class="form-control"
+                    ngModel
+                    #roleInput="ngModel"
+                  >
+                    <option selected value="user">Choose a role...</option>
+                    <option value="user">User</option>
+                    <option value="manager">Manager</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="avatarPath">Photo URL</label>
+                  <input
+                    type="text"
+                    id="avatarPath"
+                    name="avatarPath"
+                    class="form-control"
+                    ngModel
+                    #avatarPathInput="ngModel"
+                    placeholder="Photo URL"
+                  >
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="designation">Current Position</label>
+                  <input
+                    type="text"
+                    name="designation"
+                    id="designation"
+                    class="form-control"
+                    ngModel
+                    #designationInput="ngModel"
+                    placeholder="Current Position"
+                  >
+                </div>
+              </div>
+              <div class="form-row">
+                <label for="password">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  class="form-control"
+                  #passwordInput="ngModel"
+                  ngModel
+                  placeholder="Password"
+                >
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-warning" type="button" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-success" (click)="addNewEmployee(empForm)" type="submit">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

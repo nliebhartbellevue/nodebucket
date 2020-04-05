@@ -1,44 +1,48 @@
-<mat-card>
-  <form [formGroup]="form" (submit)="onSaveTask()">
-    <mat-form-field>
-      <mat-label>Task Title</mat-label>
-      <input
-        matInput
-        type="text"
-        formControlName="title"
-        placeholder="Task Title"
-      />
-      <mat-error *ngIf="form.get('title').invalid"
-        >Task Title is required</mat-error
-      >
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Task Content</mat-label>
-      <textarea
-        matInput
-        rows="4"
-        formControlName="content"
-        placeholder="Task Content"
-      ></textarea>
-      <mat-error *ngIf="form.get('content').invalid"
-        >Task content is required</mat-error
-      >
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Task Status</mat-label>
-      <mat-select formControlName="status">
-        <mat-option value="todo">To Do</mat-option>
-        <mat-option value="progress">In Progress</mat-option>
-        <mat-option value="complete">Complete</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Assiged To</mat-label>
-      <input
-        matInput
-        formControlName="empid"
-        placeholder="Assign this task to an employee with their empid"
-      />
-    </mat-form-field>
+<div class="add-task">
+  <p>Add New Task</p>
+  <form #newTaskForm="ngForm">
+    <div class="form-row align-items-center">
+      <div class="col-auto">
+        <label for="title" class="sr-only">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          name="title"
+          ngModel
+          placeholder="Task Title"
+          #titleInput="ngModel"
+          required
+        >
+      </div>
+      <div class="col-auto">
+        <label for="content" class="sr-only">Content</label>
+        <textarea
+          name="content"
+          id="content"
+          rows="4"
+          ngModel
+          placeholder="Task Content"
+          class="form-control"
+          #contentInput="ngModel"
+        ></textarea>
+      </div>
+      <div class="col-auto">
+        <label for="assignedTo" class="sr-only">Assigned To</label>
+        <select
+          name="assignedTo"
+          id="assignedTo"
+          ngModel
+          class="form-control"
+          #assignedTo="ngModel"
+
+        >
+          <option *ngFor="let employee of employees" value="{{ employee.empid }}">{{ employee.name }}</option>
+        </select>
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-primary mb-2" type="submit" (click)="addTask(newTaskForm)">Add Task</button>
+      </div>
+    </div>
   </form>
-</mat-card>
+</div>

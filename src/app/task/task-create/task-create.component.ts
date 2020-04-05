@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { TaskService } from '../task.service';
 import { AuthModel } from '../../auth/auth.model';
 import { Task } from '../task.model';
+import { TaskService } from '../task.service';
+import { AuthService } from '../../auth/auth.service';
+import { EmitterService } from '../emitter.service';
+import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-task-create',
@@ -12,73 +13,44 @@ import { Task } from '../task.model';
   styleUrls: ['./task-create.component.scss']
 })
 export class TaskCreateComponent implements OnInit {
-  enteredTitle = '';
-  enteredContent = '';
-  task: Task;
-  form: FormGroup;
-  private mode = 'create';
-  private taskId: string;
-  private employees: AuthModel[] = [];
-
+  emitter = EmitterService.get('EmployeesChannel');
+  employees: AuthModel[] = [];
+  tasks: Task[] = [];
+  empid: string;
+  title: string;
+  content: string;
+  status = 'todo';
+  assignedTo: string;
+  createdBy: string;
+  public employeeSub = Subscription;
   constructor(
-    public taskService: TaskService,
-    public router: ActivatedRoute,
-    private http: HttpClient
+    private taskService: TaskService,
+    private authService: AuthService
   ) {}
-
   ngOnInit() {
-    this.form = new FormGroup({
-      title: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      content: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      status: new FormControl('todo'),
-      empid: new FormControl('')
-    });
-    this.router.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has('taskId')) {
-        this.mode = 'edit';
-        this.taskId = paramMap.get('taskId');
-        this.taskService.getTask(this.taskId).subscribe(taskData => {
-          this.task = {
-            _id: taskData._id,
-            title: taskData.title,
-            content: taskData.content,
-            status: taskData.status,
-            assignedTo: taskData.assignedTo,
-            createdBy: taskData.createdBy
-          };
-          this.form.setValue({
-            title: this.task.title,
-            content: this.task.content,
-            status: this.task.status,
-            empid: this.task.assignedTo
-          });
-        });
-      } else {
-        this.mode = 'create';
-        this.taskId = null;
-      }
-    });
+    this.getEmpid();
+    this.authService.getEmployees();
+    this.employeeSub = this.authService.getEmployeeUpdateListener()
+      .subscribe(res => {
+        this.employees = res.employees;
+      });
+  }
+  getEmpid() {
+    this.empid = localStorage.getItem('empid');
   }
 
-  onSaveTask() {
-    if (this.form.invalid) {
-      return;
-    }
-
-    if (this.mode === 'create') {
+  addTask(form: NgForm) {
+      if (form.invalid) {
+        return;
+      }
       this.taskService.addTask(
-        this.form.value.title,
-        this.form.value.content,
-        this.form.value.assignedTo,
-        this.form.value.createdBy,
-        this.form.value.status
+        form.value.title,
+        form.value.content,
+        form.value.assignedTo,
+        this.empid,
+       'todo'
       );
-    }
-
-    this.form.reset();
+      form.reset();
+      this.taskService.getTasks();
   }
 }

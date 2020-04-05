@@ -4,8 +4,8 @@
  * Description: NodeBucket
  */
 export interface AuthModel {
-  empid: string;
-  password: string;
+  empid?: string;
+  password?: string;
   name?: string;
   email?: string;
   role?: string;

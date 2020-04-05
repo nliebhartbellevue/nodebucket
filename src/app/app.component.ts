@@ -15,7 +15,6 @@ import { AuthService } from './auth/auth.service';
 import { TaskService } from './task/task.service';
 import { Task } from './task/task.model';
 import { TaskEditComponent } from './task/task-edit/task-edit.component';
-import { TaskDeleteComponent } from './task/task-delete/task-delete.component';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +27,10 @@ export class AppComponent implements OnInit, OnDestroy {
   todo: Task[] = [];
   progress: Task[] = [];
   complete: Task[] = [];
+  isAdmin = false;
+  isManager = false;
   empid: string;
+  role: string;
   public tasksSub: Subscription;
   public authSub: Subscription;
 
@@ -41,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.authService.autoAuthenticate();
     this.checkAuth();
+    this.getRole();
     this.empid = this.authService.getEmpid();
     this.taskService.getTasks();
     this.tasksSub = this.taskService
@@ -57,6 +60,12 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isAuthenticated = isAuthenticated;
         this.empid = this.authService.getEmpid();
       });
+  }
+  getRole() {
+    this.role = localStorage.getItem('role');
+  }
+  authorized() {
+    return this.role === 'admin' || this.role === 'manager';
   }
 
   checkAuth() {
@@ -85,18 +94,6 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       );
   }
-
-  deleteTask(task: Task) {
-    this.dialog
-      .open(TaskDeleteComponent, { data: task, width: '500px' })
-      .afterClosed()
-      .subscribe(response => {
-        if (response) {
-          this.taskService.deleteTask(task._id);
-        }
-      });
-  }
-
   drop(event: CdkDragDrop<string[]>) {
     const task: Task = {
       _id: event.item.element.nativeElement.getAttribute('id'),

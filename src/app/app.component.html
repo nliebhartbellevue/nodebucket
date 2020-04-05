@@ -1,5 +1,9 @@
 <app-header></app-header>
 <main class="content" *ngIf="isAuthenticated">
+  <div class="authorized-only" *ngIf="authorized()">
+    <app-employees></app-employees>
+    <app-task-create></app-task-create>
+  </div>
   <app-drawer>
     <div class="board">
       <div class="card-list mat-elevation-z1">
@@ -28,8 +32,8 @@
         </div>
       </div>
       <div class="card-list mat-elevation-z1">
-        <h2 class="mat-h2 progress">
-          In Progress
+        <h2 class="mat-h2 progress" style="text-align: center;">
+          <span style="text-align: center; color: white;margin: auto;">In Progress</span>
         </h2>
         <div
           cdkDropList

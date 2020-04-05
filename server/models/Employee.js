@@ -11,6 +11,8 @@ const employeeSchema = new mongoose.Schema({
   password: { type: String, required: true },
   name: { type: String, required: true },
   role: { type: String, enum: ['admin', 'manager', 'user'], default: 'user' },
+  avatarPath: { type: String },
+  designation: { type: String },
   deleted: Boolean
 });
 

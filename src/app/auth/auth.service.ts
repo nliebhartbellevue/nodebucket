@@ -6,8 +6,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AuthModel } from './auth.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,10 @@ export class AuthService {
   private email: string;
   private role: string;
   private name: string;
+  private employees: AuthModel[] = [];
   private authStatusListener = new Subject<boolean>();
-  private baseUrl = 'http://localhost:5000/api/v2/auth';
+  private employeesUpdated = new Subject<{ employees: AuthModel[] }>();
+  private baseUrl = 'http://localhost:5000/api/v2';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -54,6 +57,34 @@ export class AuthService {
     return this.name;
   }
 
+  getEmployees() {
+    this.http.get<{ message: string; employees: AuthModel[] }>(`${this.baseUrl}/employee`)
+      .pipe(
+        map(empData => {
+          return empData.employees.map(employee => {
+            return {
+              empid: employee.empid,
+              name: employee.name,
+              email: employee.email,
+              role: employee.role,
+              avatarPath: employee.avatarPath,
+              designation: employee.designation
+            };
+          });
+        })
+      ).subscribe(transformedEmployees => {
+        console.log(transformedEmployees);
+        this.employees = transformedEmployees;
+        this.employeesUpdated.next({
+          employees: [...this.employees]
+        });
+    });
+  }
+
+  getEmployeeUpdateListener() {
+    return this.employeesUpdated.asObservable();
+  }
+
   // register a new employee
   register(
     empid: string,
@@ -74,7 +105,7 @@ export class AuthService {
       designation
     };
     this.http
-      .post(`${this.baseUrl}/register`, authModel)
+      .post(`${this.baseUrl}/auth/register`, authModel)
       .subscribe(response => {
         console.log(response);
       });
@@ -90,7 +121,7 @@ export class AuthService {
         empid: string;
         role: string;
         name: string;
-      }>(`${this.baseUrl}/login`, authModel)
+      }>(`${this.baseUrl}/auth/login`, authModel)
       .subscribe(response => {
         const token = response.token;
         this.token = token;
