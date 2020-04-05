@@ -11,12 +11,13 @@
   },
   "scripts": {
     "ng": "ng",
+    "server": "nodemon server.js",
+    "localhost": "ng build && node server.js",
     "start": "node server.js",
-    "build": "ng build && node server.js",
+    "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "start:server": "nodemon server.js"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {

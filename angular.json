@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "nodebucket-ui": {
+    "nodebucket": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -66,7 +66,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "nodebucket:build"
+            "browserTarget": "nodebucket:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -107,18 +108,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "nodebucket-ui:serve"
+            "devServerTarget": "nodebucket:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "nodebucket-ui:serve:production"
+              "devServerTarget": "nodebucket:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "nodebucket-ui",
+  "defaultProject": "nodebucket",
   "cli": {
     "analytics": false
   }
