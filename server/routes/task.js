@@ -113,9 +113,9 @@ router.get('/:id', (req, res, next) => {
  * @access        Private
  */
 router.delete('/:id', auth, (req, res, next) => {
-  Task.deleteOne({ _id: req.params.id, createdBy: req.userData.empid }).then(
-    result => {
-      if (result.n > 0) {
+  Task.deleteOne({ _id: req.params.id }).then(
+    task => {
+      if (task.n > 0) {
         res.status(200).json({
           message: `Employee ${req.userData.empid} deleted task #${req.params.id} successfully!`
         });

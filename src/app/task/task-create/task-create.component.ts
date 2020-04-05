@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthModel } from '../../auth/auth.model';
 import { Task } from '../task.model';
 import { TaskService } from '../task.service';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './task-create.component.html',
   styleUrls: ['./task-create.component.scss']
 })
-export class TaskCreateComponent implements OnInit {
+export class TaskCreateComponent implements OnInit, OnDestroy {
   emitter = EmitterService.get('EmployeesChannel');
   employees: AuthModel[] = [];
   tasks: Task[] = [];
@@ -30,6 +30,7 @@ export class TaskCreateComponent implements OnInit {
   ngOnInit() {
     this.getEmpid();
     this.authService.getEmployees();
+    // @ts-ignore
     this.employeeSub = this.authService.getEmployeeUpdateListener()
       .subscribe(res => {
         this.employees = res.employees;
@@ -52,5 +53,10 @@ export class TaskCreateComponent implements OnInit {
       );
       form.reset();
       this.taskService.getTasks();
+  }
+
+  ngOnDestroy() {
+    // @ts-ignore
+    this.employeeSub.unsubscribe();
   }
 }

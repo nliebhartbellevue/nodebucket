@@ -1,8 +1,14 @@
 <app-header></app-header>
 <main class="content" *ngIf="isAuthenticated">
-  <div class="authorized-only" *ngIf="authorized()">
-    <app-employees></app-employees>
-    <app-task-create></app-task-create>
+  <div class="auth-top-bar" [ngSwitch]="authorized()">
+    <div *ngSwitchCase="'admin'">
+      <app-employees style="visibility: visible;"></app-employees>
+      <app-task-create style="visibility: visible;"></app-task-create>
+    </div>
+    <div *ngSwitchCase="'manager'">
+      <app-task-create style="visibility: visible;"></app-task-create>
+    </div>
+    <div *ngSwitchDefault></div>
   </div>
   <app-drawer>
     <div class="board">
@@ -27,7 +33,7 @@
             [assignedTo]="task.assignedTo"
             [createdBy]="task.createdBy"
             (edit)="editTask(task)"
-            (delete)="deleteTask(task)"
+            (delete)="onDelete(task)"
           ></app-card>
         </div>
       </div>
@@ -52,7 +58,7 @@
             [assignedTo]="task.assignedTo"
             [createdBy]="task.createdBy"
             (edit)="editTask(task)"
-            (delete)="deleteTask(task)"
+            (delete)="onDelete(task)"
           ></app-card>
         </div>
       </div>
@@ -76,15 +82,14 @@
             [title]="task.title"
             [assignedTo]="task.assignedTo"
             [createdBy]="task.createdBy"
-            (edit)="editTask(task, task._id)"
-            (delete)="deleteTask(task)"
+            (edit)="editTask(task)"
+            (delete)="onDelete(task)"
           ></app-card>
         </div>
       </div>
     </div>
   </app-drawer>
 </main>
-
 <main class="content" *ngIf="!isAuthenticated">
   <router-outlet></router-outlet>
 </main>

@@ -60,12 +60,19 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isAuthenticated = isAuthenticated;
         this.empid = this.authService.getEmpid();
       });
+    this.authorized();
   }
   getRole() {
     this.role = localStorage.getItem('role');
   }
-  authorized() {
-    return this.role === 'admin' || this.role === 'manager';
+  authorized(): string {
+    if (this.role === 'admin') {
+      return 'admin';
+    } else if (this.role === 'manager') {
+      return 'manager';
+    } else {
+      return 'user';
+    }
   }
 
   checkAuth() {
@@ -122,8 +129,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDelete(taskId: string) {
-    this.taskService.deleteTask(taskId);
+  onDelete(task: Task) {
+    this.taskService.deleteTask(task);
   }
 
   ngOnDestroy() {

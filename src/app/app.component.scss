@@ -61,3 +61,10 @@
 .cdk-drag-placeholder {
   opacity: 0;
 }
+
+app-employees {
+  visibility: hidden;
+}
+app-task-create {
+  visibility: hidden;
+}

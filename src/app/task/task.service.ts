@@ -25,17 +25,18 @@ export interface Board {
   providedIn: 'root'
 })
 export class TaskService {
-  private tasks: Task[] = [];
-  private tasksUpdated = new Subject<{ tasks: Task[] }>();
-  private baseUrl = 'http://localhost:5000/api/v2/task';
-  private boards$: Board[] = require('../../data.json');
-  currentBoard = this.boards$[0];
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private authService: AuthService
   ) {}
+  private tasks: Task[] = [];
+  private tasksUpdated = new Subject<{ tasks: Task[] }>();
+  private baseUrl = 'http://localhost:5000/api/v2/task';
+  private boards$: Board[] = require('../../data.json');
+  currentBoard = this.boards$[0];
+  _;
 
   getBoards(): Board[] {
     return this.boards$;
@@ -174,11 +175,10 @@ export class TaskService {
       .subscribe(taskData => {});
     console.log(task._id);
   }
-  _;
 
-  deleteTask(taskId: string) {
-    this.http.delete(`${this.baseUrl}/taskId`).subscribe(() => {
-      const updatedTasks = this.tasks.filter(task => task._id !== taskId);
+  deleteTask(task: Task) {
+    this.http.delete(`${this.baseUrl}/` + task._id).subscribe(() => {
+      const updatedTasks = this.tasks.filter(t => t._id !== task._id);
       this.tasks = updatedTasks;
       this.tasksUpdated.next({
         tasks: [...this.tasks]

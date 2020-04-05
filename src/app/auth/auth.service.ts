@@ -107,7 +107,11 @@ export class AuthService {
     this.http
       .post(`${this.baseUrl}/auth/register`, authModel)
       .subscribe(response => {
-        console.log(response);
+        this.employees.push(authModel);
+        this.employeesUpdated.next({
+          employees: [...this.employees]
+        });
+        this.router.navigate(['/']);
       });
   }
 
@@ -136,13 +140,13 @@ export class AuthService {
           const now = new Date();
           const expiration = new Date(now.getTime() + expiresInDuration * 1000);
           this.saveAuth(token, expiration, this.empid, this.role, this.name);
-          this.router.navigate(['/task']);
         }
+        this.router.navigate(['/task']);
         console.log(response);
       });
   }
 
-  // used to automatically authenticate employee if token is still avaliable in local strorage
+  // used to automatically authenticate employee if token is still available in local storage
   autoAuthenticate() {
     const authInfo = this.getAuthData();
 
@@ -169,7 +173,7 @@ export class AuthService {
     this.token = null;
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
     clearTimeout(this.tokenTimeout);
     this.clearAuth();
     this.empid = null;
