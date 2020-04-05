@@ -5,6 +5,10 @@
     "name": "Nathaniel Liebhart",
     "email": "nliebhart@my365.bellevue.edu"
   },
+  "engines": {
+    "node": "10.16.3",
+    "npm": "6.9.0"
+  },
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
