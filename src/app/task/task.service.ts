@@ -25,7 +25,6 @@ export interface Board {
   providedIn: 'root'
 })
 export class TaskService {
-
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -33,7 +32,7 @@ export class TaskService {
   ) {}
   private tasks: Task[] = [];
   private tasksUpdated = new Subject<{ tasks: Task[] }>();
-  private baseUrl = 'http://localhost:5000/api/v2/task';
+  private baseUrl = 'api/v2/task';
   private boards$: Board[] = require('../../data.json');
   currentBoard = this.boards$[0];
   _;

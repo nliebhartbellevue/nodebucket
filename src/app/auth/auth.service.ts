@@ -24,7 +24,7 @@ export class AuthService {
   private employees: AuthModel[] = [];
   private authStatusListener = new Subject<boolean>();
   private employeesUpdated = new Subject<{ employees: AuthModel[] }>();
-  private baseUrl = 'http://localhost:5000/api/v2';
+  private baseUrl = 'api/v2';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -58,7 +58,10 @@ export class AuthService {
   }
 
   getEmployees() {
-    this.http.get<{ message: string; employees: AuthModel[] }>(`${this.baseUrl}/employee`)
+    this.http
+      .get<{ message: string; employees: AuthModel[] }>(
+        `${this.baseUrl}/employee`
+      )
       .pipe(
         map(empData => {
           return empData.employees.map(employee => {
@@ -72,13 +75,14 @@ export class AuthService {
             };
           });
         })
-      ).subscribe(transformedEmployees => {
+      )
+      .subscribe(transformedEmployees => {
         console.log(transformedEmployees);
         this.employees = transformedEmployees;
         this.employeesUpdated.next({
           employees: [...this.employees]
         });
-    });
+      });
   }
 
   getEmployeeUpdateListener() {
